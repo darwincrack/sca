@@ -14,16 +14,14 @@
                     active
                  @elseif (Route::getCurrentRoute()->getPath() == 'usuarios/roles')
                     active
-                @elseif(Route::getCurrentRoute()->getPath() == 'usuarios/permissions')
-                    active
+
                 @endif ">
 
-                <a href="index.html"><i class="fa fa-search" aria-hidden="true"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
+                <a href="index.html"><i class="fa fa-user" aria-hidden="true"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'usuarios/users') ? 'active' : '' }}"><a href="{{ url('/usuarios/users') }}" >Listar</a></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'usuarios/roles') ? 'active' : '' }}"><a href="{{ url('/usuarios/roles') }}"  >Roles</a></li>
-                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'usuarios/permissions') ? 'active' : '' }}"><a href="{{ url('/usuarios/permissions') }}" >Permisos</a></li>
                 </ul>
             </li>
 
