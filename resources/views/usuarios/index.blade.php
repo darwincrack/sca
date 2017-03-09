@@ -3,7 +3,7 @@
 @push('boton_accion')
 <a href="{{ url('/estatus/add') }}" class="btn btn-primary">
     <span class="glyphicon glyphicon-plus"></span>
-    Nuevo usuarios
+    Home
 </a>
 @endpush
 
@@ -13,5 +13,19 @@
 
 @section('content')
 
-  prueba
+    @role('admin')
+    <p>SOY ADMINISTRADOR</p>
+    @endrole
+
+    @role('operador')
+    <p>SOY OPERADOR</p>
+    @endrole
+
+    @role('usuario')
+    <p>SOY USUARIO</p>
+    @endrole
+
+
+
+  PAGINA INICIAL EN CONSTRUCCION
 @stop

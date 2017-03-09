@@ -1,5 +1,6 @@
 <?php namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Esensi\Model\Contracts\ValidatingModelInterface;
 use Esensi\Model\Traits\ValidatingModelTrait;
 use Illuminate\Auth\Authenticatable;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Acoustep\EntrustGui\Contracts\HashMethodInterface;
 use Hash;
+
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract, ValidatingModelInterface, HashMethodInterface
 {

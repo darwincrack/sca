@@ -60,25 +60,33 @@ $(document).ready(function(){
 
 
 
-    $('[data-rec]').on('click', function() {
+    $('[data-rec]').on('change', function() {
 
-        var path="show-procedencia/";
+
+        if($("#grupo").val()=='')
+        {
+            $("#subgrupo").html('<option value="">SELECCIONE</option>');
+            return;
+
+        }
+
+        var path="subgrupo/";
 
         if(/editar/.test(window.location.pathname)){
 
-            path="../show-procedencia/";
+            path="../subgrupo/";
         }
 
 
-        $.getJSON( path+$("#ciudades").val()+"/"+$("#tipo_procedencia").val() )
+        $.getJSON( path+$("#grupo").val() )
             .done(function( response, textStatus, jqXHR ) {
 
                 if (response.success) {
-                    $('#procedencia').html("");
+                    $('#subgrupo').html("");
                     $.each(response.data, function(key, value) {
 
-                        $('#procedencia').append($('<option>', {
-                            value: value['id_procedencia'],
+                        $('#subgrupo').append($('<option>', {
+                            value: value['id'],
                             text : value['nombre']
                         }));
 
