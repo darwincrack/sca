@@ -23,8 +23,10 @@ class PersonalModels
             /*           ->join('ciudad', 'procedencia.id_ciudad', '=', 'ciudad.id_ciudad')
                       ->join('tipo_procedencia', 'procedencia.id_tipo_procedencia', '=', 'tipo_procedencia.id_tipo_procedencia')
                      ->leftJoin('detalles_alquiler_procedencia', 'procedencia.id_procedencia', '=', 'detalles_alquiler_procedencia.id_procedencia')*/
+            ->leftJoin('sub_grupo_personal', 'Userinfo.idSubGrupo', '=', 'sub_grupo_personal.id')
+            ->leftJoin('grupo_personal', 'Userinfo.idGrupo', '=', 'grupo_personal.id')
             ->orderBy('Userid','desc')
-            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name');
+            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name','grupo_personal.nombre as grupo_nombre', 'sub_grupo_personal.nombre as sub_grupo_nombre');
 
         return $data->get();
         }
@@ -32,7 +34,9 @@ class PersonalModels
         {
             $data = DB::table('Userinfo')
             ->where('Userid', $userID)
-            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name', 'idGrupo', 'idSubGrupo','Deptid', 'idGenero')
+                ->leftJoin('sub_grupo_personal', 'Userinfo.idSubGrupo', '=', 'sub_grupo_personal.id')
+            ->leftJoin('grupo_personal', 'Userinfo.idGrupo', '=', 'grupo_personal.id')
+            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name', 'idGrupo', 'idSubGrupo','Deptid', 'idGenero','grupo_personal.nombre as grupo_nombre', 'sub_grupo_personal.nombre as sub_grupo_nombre')
             ->first();
         return $data;
 

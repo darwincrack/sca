@@ -1,11 +1,13 @@
 @extends('layouts.template')
 
-@push('boton_accion')
-<a href="{{ url('/tipo-procedencia/add') }}" class="btn btn-primary">
-    <span class="glyphicon glyphicon-plus"></span>
-    Nuevo Grupo
-</a>
-@endpush
+
+    @push('boton_accion')
+    <a href="{{ url('/tipo-procedencia/add') }}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>
+        Nuevo Grupo
+    </a>
+    @endpush
+
 
 @section('title', 'Editar Grupo')
 

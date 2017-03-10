@@ -50,11 +50,11 @@
                     </div>
 
 
-                    <div class="form-group{{ $errors->has('usuario_nro') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">Usuario Nro</label>
+                    <div class="form-group{{ $errors->has('UserCode') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">Usuario Nro</label>
 
-                        <div class="col-lg-10"><input type="text" name="usuario_nro" placeholder="Ejemplo: 225" class="form-control" value="{{$data_personal->UserCode}}"> @if ($errors->has('usuario_nro'))
+                        <div class="col-lg-10"><input type="text" name="UserCode" placeholder="Ejemplo: 225" class="form-control" value="{{$data_personal->UserCode}}"> @if ($errors->has('UserCode'))
                                 <span class="help-block">
-                                        <strong>{{ $errors->first('usuario_nro') }}</strong>
+                                        <strong>{{ $errors->first('UserCode') }}</strong>
                                     </span>
                             @endif
                         </div>

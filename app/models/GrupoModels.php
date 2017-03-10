@@ -27,7 +27,7 @@ class GrupoModels
     static public function insertar($nombre,$descripcion)
     {
         DB::table('grupo_personal')->insert(
-            ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => '1']
+            ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => '1', 'created_at' => DB::raw("getdate()"), 'creado_por'=>Auth::user()->id]
         );
 
     }
@@ -38,7 +38,7 @@ class GrupoModels
     {
         DB::table('grupo_personal')
              ->where('id', $id_grupo)
-            ->update( ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => $activo]);
+            ->update( ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => $activo,  'updated_at' => DB::raw("getdate()")]);
 
     }
 

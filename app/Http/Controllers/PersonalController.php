@@ -9,6 +9,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Input;
 use Illuminate\Support\Facades\Response;
+use Entrust;
 
 class PersonalController extends Controller
 {
@@ -31,10 +32,21 @@ class PersonalController extends Controller
         $personal  =  PersonalModels::listar();
 
         return Datatables::of($personal)
-            ->addColumn('action', function ($personal) {
-                return '<a href="personal/editar/'.$personal->Userid.'" class="btn btn-xs btn-primary editar"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-            })
 
+
+            
+            ->addColumn('action', function ($personal)  {
+
+                if(Entrust::hasRole(['admin', 'operador']))
+                {
+                      return '<a href="personal/editar/'.$personal->Userid.'" class="btn btn-xs btn-primary editar"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                }
+                else{
+                    return '-';
+                }
+                  
+
+            })
 
 
             ->make(true);
@@ -94,14 +106,16 @@ class PersonalController extends Controller
 
             $this->validate($request, [
                 'nombre' => 'required|max:50',
-                'id_dispositivo' => 'required|numeric',
-                'usuario_nro' => 'required|numeric',
-            ]);
+                'Userid' => 'required|numeric|unique:Userinfo',
+                'UserCode' => 'required|numeric|unique:Userinfo',
+            ],
+            ['Userid.unique' => 'El campo ID en dispositivos ya se encuentra registrado', 'UserCode.unique' => 'El campo Usuario Nro ya se encuentra registrado']
+            );
 
 
 
-        $id_dispositivo     =   $request->input("id_dispositivo");
-        $usuario_nro        =   $request->input("usuario_nro");
+        $id_dispositivo     =   $request->input("Userid");
+        $usuario_nro        =   $request->input("UserCode");
         $nombre             =   $request->input("nombre");
         $departamento       =   $request->input("departamento");
         $grupo              =   $request->input("grupo");
@@ -126,12 +140,13 @@ class PersonalController extends Controller
 
             $this->validate($request, [
                 'nombre' => 'required|max:50',
-                'usuario_nro' => 'required|numeric',
+                'UserCode' => 'required|numeric',
+
             ]);
 
 
         $id_personal              =   $request->input("id_personal");
-        $usuario_nro              =   $request->input("usuario_nro");
+        $usuario_nro              =   $request->input("UserCode");
         $nombre                   =   $request->input("nombre");
         $departamento             =   $request->input("departamento");
         $grupo                    =   $request->input("grupo");
@@ -156,6 +171,10 @@ class PersonalController extends Controller
 
         return redirect('personal');
     }
+
+
+
+
 
 
 

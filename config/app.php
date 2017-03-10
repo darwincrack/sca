@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -90,7 +90,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,6 +169,8 @@ return [
 
 
 
+
+
         /*
          * Package Service Providers...
          */
@@ -233,6 +235,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 		'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+
+
 
 
 

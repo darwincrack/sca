@@ -1,11 +1,15 @@
 @extends('layouts.template')
 
-@push('boton_accion')
-<a href="{{ url('/personal/add') }}" class="btn btn-primary">
-    <span class="glyphicon glyphicon-plus"></span>
-    Nuevo Personal
-</a>
-@endpush
+
+
+    @push('boton_accion')
+    <a href="{{ url('/personal/add') }}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>
+        Nuevo Personal
+    </a>
+    @endpush
+
+
 
 @push('css')
 <link rel="stylesheet" href="{{ URL::asset('assets/css/plugins/dataTables/dataTables.min.css') }}">
@@ -32,9 +36,11 @@
 
         <thead>
         <tr>
-            <th>Usuario Nro.</th>
             <th>ID dispositivo</th>
+            <th>Usuario Nro.</th>
             <th>Nombre</th>
+            <th>Grupo</th>
+            <th>Sub Grupo</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -59,10 +65,11 @@
             "order": [[ 0, "desc" ]],
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             columns: [
-
-                {data: 'UserCode', name: 'UserCode'},
                 {data: 'Userid', name: 'Userid'},
+                {data: 'UserCode', name: 'UserCode'},      
                 {data: 'Name', name: 'Name'},
+                {data: 'grupo_nombre', name: 'grupo_personal.nombre'},
+                {data: 'sub_grupo_nombre', name: 'sub_grupo_personal.nombre'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             pageLength: 25,

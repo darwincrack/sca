@@ -29,7 +29,7 @@
       <td>{{ $user->email }}</td>
 
         <td>
-            <?php if(strtoupper($user->rol->name)=='ADMIN'){
+          <?php if(strtoupper($user->rol->name)=='ADMIN'){
                 $color_label='primary';
             }
             elseif(strtoupper($user->rol->name)=='OPERADOR')

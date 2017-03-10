@@ -24,21 +24,21 @@ class SubGrupoModels
     }
 
 
-    static public function insertar($nombre,$descripcion)
+    static public function insertar($nombre,$descripcion,$id_grupo)
     {
         DB::table('sub_grupo_personal')->insert(
-            ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => '1']
+            ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => '1','id_grupo_personal'=>$id_grupo, 'created_at' => DB::raw("getdate()"), 'creado_por'=>Auth::user()->id]
         );
 
     }
 
 
 
-    static public function editar($id_sub_grupo,$nombre,$descripcion,$activo)
+    static public function editar($id_sub_grupo,$nombre,$descripcion,$activo,$id_grupo)
     {
         DB::table('sub_grupo_personal')
              ->where('id', $id_sub_grupo)
-            ->update( ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => $activo]);
+            ->update( ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => $activo,'id_grupo_personal'=>$id_grupo , 'updated_at' => DB::raw("getdate()")]);
 
     }
 
@@ -49,7 +49,7 @@ class SubGrupoModels
 
         $data = DB::table('sub_grupo_personal')
             ->where('id', $id_sub_grupo)
-            ->select('id','nombre', 'descripcion', 'activo')
+            ->select('id','nombre', 'descripcion', 'activo','id_grupo_personal')
             ->first();
         return $data;
 

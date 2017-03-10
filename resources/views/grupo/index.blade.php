@@ -1,11 +1,15 @@
 @extends('layouts.template')
 
-@push('boton_accion')
-<a href="{{ url('/grupo/add') }}" class="btn btn-primary">
-    <span class="glyphicon glyphicon-plus"></span>
-    Nuevo Grupo
-</a>
-@endpush
+
+
+    @push('boton_accion')
+    <a href="{{ url('/grupo/add') }}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>
+        Nuevo Grupo
+    </a>
+    @endpush
+
+
 
 @push('css')
 <link rel="stylesheet" href="{{ URL::asset('assets/css/plugins/dataTables/dataTables.min.css') }}">

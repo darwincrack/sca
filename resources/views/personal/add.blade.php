@@ -41,22 +41,22 @@
 
 
 
-                    <div class="form-group{{ $errors->has('id_dispositivo') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">ID en dispositivos</label>
+                    <div class="form-group{{ $errors->has('Userid') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">ID en dispositivos</label>
 
-                        <div class="col-lg-10"><input type="text" name="id_dispositivo" placeholder="Ejemplo: 225" class="form-control" value="{{ old('id_dispositivo') }}"> @if ($errors->has('id_dispositivo'))
+                        <div class="col-lg-10"><input type="text" name="Userid" placeholder="Ejemplo: 225" class="form-control" value="{{ old('Userid') }}"> @if ($errors->has('Userid'))
                                 <span class="help-block">
-                                        <strong>{{ $errors->first('id_dispositivo') }}</strong>
+                                        <strong>{{ $errors->first('Userid') }}</strong>
                                     </span>
                             @endif
                         </div>
                     </div>
 
 
-                    <div class="form-group{{ $errors->has('usuario_nro') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">Usuario Nro</label>
+                    <div class="form-group{{ $errors->has('UserCode') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">Usuario Nro</label>
 
-                        <div class="col-lg-10"><input type="text" name="usuario_nro" placeholder="Ejemplo: 225" class="form-control" value="{{ old('usuario_nro') }}"> @if ($errors->has('usuario_nro'))
+                        <div class="col-lg-10"><input type="text" name="UserCode" placeholder="Ejemplo: 225" class="form-control" value="{{ old('UserCode') }}"> @if ($errors->has('UserCode'))
                                 <span class="help-block">
-                                        <strong>{{ $errors->first('usuario_nro') }}</strong>
+                                        <strong>{{ $errors->first('UserCode') }}</strong>
                                     </span>
                             @endif
                         </div>

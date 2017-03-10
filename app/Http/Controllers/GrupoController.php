@@ -8,7 +8,7 @@ use App\models\GrupoModels;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use App\Http\Requests\Requests;
-
+use Entrust;
 
 class GrupoController extends Controller
 {
@@ -33,7 +33,17 @@ class GrupoController extends Controller
 
         return Datatables::of($grupos)
             ->addColumn('action', function ($grupo) {
-                return '<a href="grupo/editar/'.$grupo->id.'" class="btn btn-xs btn-primary editar"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+            
+                if(Entrust::hasRole(['admin', 'operador']))
+                {
+
+                    return '<a href="grupo/editar/'.$grupo->id.'" class="btn btn-xs btn-primary editar"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                }
+                else
+                {
+                    return '-';
+                }
+
             })
 
 

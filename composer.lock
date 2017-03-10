@@ -4,8 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "df91a0a76d0c8d35423f35498ac594bc",
     "content-hash": "33963b38503688d09f73bd49715f8137",
+=======
+    "hash": "ddcd7af19920f557d2307a70ff5021ed",
+    "content-hash": "de6b6a4240fa93bedb33b866d10126d0",
+>>>>>>> origin/master
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2956,6 +2961,7 @@
         },
         {
             "name": "phpunit/php-code-coverage",
+<<<<<<< HEAD
             "version": "4.0.7",
             "source": {
                 "type": "git",
@@ -2966,16 +2972,35 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/09e2277d14ea467e5a984010f501343ef29ffc69",
                 "reference": "09e2277d14ea467e5a984010f501343ef29ffc69",
+=======
+            "version": "4.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
+                "reference": "ca060f645beeddebedb1885c97bf163e93264c35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ca060f645beeddebedb1885c97bf163e93264c35",
+                "reference": "ca060f645beeddebedb1885c97bf163e93264c35",
+>>>>>>> origin/master
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-xmlwriter": "*",
                 "php": "^5.6 || ^7.0",
+<<<<<<< HEAD
                 "phpunit/php-file-iterator": "^1.3",
                 "phpunit/php-text-template": "^1.2",
                 "phpunit/php-token-stream": "^1.4.2 || ^2.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0",
+=======
+                "phpunit/php-file-iterator": "~1.3",
+                "phpunit/php-text-template": "~1.2",
+                "phpunit/php-token-stream": "^1.4.2 || ^2.0",
+                "sebastian/code-unit-reverse-lookup": "~1.0",
+>>>>>>> origin/master
                 "sebastian/environment": "^1.3.2 || ^2.0",
                 "sebastian/version": "^1.0 || ^2.0"
             },
@@ -3015,7 +3040,11 @@
                 "testing",
                 "xunit"
             ],
+<<<<<<< HEAD
             "time": "2017-03-01 09:12:17"
+=======
+            "time": "2017-02-23 07:38:02"
+>>>>>>> origin/master
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -3156,6 +3185,7 @@
         },
         {
             "name": "phpunit/php-token-stream",
+<<<<<<< HEAD
             "version": "1.4.11",
             "source": {
                 "type": "git",
@@ -3166,6 +3196,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/e03f8f67534427a787e21a385a67ec3ca6978ea7",
                 "reference": "e03f8f67534427a787e21a385a67ec3ca6978ea7",
+=======
+            "version": "1.4.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-token-stream.git",
+                "reference": "284fb0679dd25fb5ffb56dad92c72860c0a22f1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/284fb0679dd25fb5ffb56dad92c72860c0a22f1b",
+                "reference": "284fb0679dd25fb5ffb56dad92c72860c0a22f1b",
+>>>>>>> origin/master
                 "shasum": ""
             },
             "require": {
@@ -3201,7 +3243,11 @@
             "keywords": [
                 "tokenizer"
             ],
+<<<<<<< HEAD
             "time": "2017-02-27 10:12:30"
+=======
+            "time": "2017-02-23 06:14:45"
+>>>>>>> origin/master
         },
         {
             "name": "phpunit/phpunit",

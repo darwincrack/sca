@@ -4,12 +4,15 @@
             <li class="nav-header ">
 
                 <div class=" profile-element">
-                    <a href="{{ url('/') }}" alt="Ir a Inicio"> <h1>CSA</h1></a>
+                    <a href="{{ url('/') }}" alt="Ir a Inicio"> <h1>SCA</h1></a>
                 </div>
                 <div class="logo-element">
                     SCA
                 </div>
             </li>
+
+
+        @role('admin')
             <li class=" @if (Route::getCurrentRoute()->getPath() == 'usuarios/users')
                     active
                  @elseif (Route::getCurrentRoute()->getPath() == 'usuarios/roles')
@@ -22,19 +25,27 @@
                     <li></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'usuarios/users') ? 'active' : '' }}"><a href="{{ url('/usuarios/users') }}" >Listar</a></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'usuarios/roles') ? 'active' : '' }}"><a href="{{ url('/usuarios/roles') }}"  >Roles</a></li>
+
                 </ul>
             </li>
+        @endrole
+
 
             <li class=" @if (Route::getCurrentRoute()->getPath() == 'personal')
                     active
                  @elseif (Route::getCurrentRoute()->getPath() == 'personal/add')
                     active
                 @endif ">
-                <a href="index.html"><i class="fa fa-building-o" aria-hidden="true"></i> <span class="nav-label">Personal</span> <span class="fa arrow"></span></a>
+                <a href="index.html"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Personal</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'personal') ? 'active' : '' }}"><a href="{{ url('personal') }}"><a href="{{ url('/personal') }}">Listar</a></li>
+                   
+            @role(['admin','operador'])
+
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'personal/add') ? 'active' : '' }}"><a href="{{ url('personal/add') }}"><a href="{{ url('/personal/add') }}">Agregar</a></li>
+            @endrole
+
                 </ul>
             </li>
 
@@ -47,7 +58,9 @@
                 <ul class="nav nav-second-level collapse">
                     <li></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'grupo') ? 'active' : '' }}"><a href="{{ url('grupo') }}"><a href="{{ url('/grupo') }}">Listar</a></li>
+            @role(['admin','operador'])        
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'grupo/add') ? 'active' : '' }}"><a href="{{ url('grupo/add') }}"><a href="{{ url('/grupo/add') }}">Agregar</a></li>
+            @endrole       
                 </ul>
             </li>
 
@@ -58,11 +71,14 @@
                  @elseif (Route::getCurrentRoute()->getPath() == 'subgrupo/add')
                     active
                 @endif ">
-                <a href="index.html"><i class="fa fa-building-o" aria-hidden="true"></i> <span class="nav-label">Sub Grupo</span> <span class="fa arrow"></span></a>
+                <a href="index.html"><i class="fa fa-university" aria-hidden="true"></i> <span class="nav-label">Sub Grupo</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'subgrupo') ? 'active' : '' }}"><a href="{{ url('subgrupo') }}"><a href="{{ url('/subgrupo') }}">Listar</a></li>
+
+                @role(['admin','operador'])     
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'subgrupo/add') ? 'active' : '' }}"><a href="{{ url('subgrupo/add') }}"><a href="{{ url('/subgrupo/add') }}">Agregar</a></li>
+                @endrole    
                 </ul>
             </li>
 
