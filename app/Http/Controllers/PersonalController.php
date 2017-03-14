@@ -49,6 +49,29 @@ class PersonalController extends Controller
             })
 
 
+
+            ->editColumn('huella1', function ($personal) {
+                if($personal->huella1!=''){
+
+                    return "<span class='badge badge-success'><i class='fa fa-check' aria-hidden='true'></i></span>";
+                }
+                return "";
+
+
+            })
+
+
+            ->editColumn('huella2', function ($personal) {
+                if($personal->huella2!=''){
+
+                    return "<span class='badge badge-success'><i class='fa fa-check' aria-hidden='true'></i></span>";
+                }
+                return "";
+
+
+            })
+
+
             ->make(true);
 
     }
@@ -106,15 +129,14 @@ class PersonalController extends Controller
 
             $this->validate($request, [
                 'nombre' => 'required|max:50',
-                'Userid' => 'required|numeric|unique:Userinfo',
+
                 'UserCode' => 'required|numeric|unique:Userinfo',
-            ],
-            ['Userid.unique' => 'El campo ID en dispositivos ya se encuentra registrado', 'UserCode.unique' => 'El campo Usuario Nro ya se encuentra registrado']
+            ]
             );
 
 
 
-        $id_dispositivo     =   $request->input("Userid");
+
         $usuario_nro        =   $request->input("UserCode");
         $nombre             =   $request->input("nombre");
         $departamento       =   $request->input("departamento");
@@ -125,7 +147,7 @@ class PersonalController extends Controller
 
 
 
-        PersonalModels::insertar($id_dispositivo,$usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero);
+        PersonalModels::insertar($usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero);
 
         $request->session()->flash('alert-success', 'Personal agregado con exito!!');
 

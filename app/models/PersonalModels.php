@@ -20,13 +20,11 @@ class PersonalModels
         if(!$userID){
 
             $data = DB::table('Userinfo')
-            /*           ->join('ciudad', 'procedencia.id_ciudad', '=', 'ciudad.id_ciudad')
-                      ->join('tipo_procedencia', 'procedencia.id_tipo_procedencia', '=', 'tipo_procedencia.id_tipo_procedencia')
-                     ->leftJoin('detalles_alquiler_procedencia', 'procedencia.id_procedencia', '=', 'detalles_alquiler_procedencia.id_procedencia')*/
+
             ->leftJoin('sub_grupo_personal', 'Userinfo.idSubGrupo', '=', 'sub_grupo_personal.id')
             ->leftJoin('grupo_personal', 'Userinfo.idGrupo', '=', 'grupo_personal.id')
             ->orderBy('Userid','desc')
-            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name','grupo_personal.nombre as grupo_nombre', 'sub_grupo_personal.nombre as sub_grupo_nombre');
+            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name','grupo_personal.nombre as grupo_nombre', 'sub_grupo_personal.nombre as sub_grupo_nombre', 'Pwd', DB::raw('(select Fingerid from UserFinger where Userid= Userinfo.Userid and Fingerid=0) as huella1'), DB::raw('(select Fingerid from UserFinger where Userid= Userinfo.Userid and Fingerid=1) as huella2'));
 
         return $data->get();
         }
@@ -36,7 +34,7 @@ class PersonalModels
             ->where('Userid', $userID)
                 ->leftJoin('sub_grupo_personal', 'Userinfo.idSubGrupo', '=', 'sub_grupo_personal.id')
             ->leftJoin('grupo_personal', 'Userinfo.idGrupo', '=', 'grupo_personal.id')
-            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name', 'idGrupo', 'idSubGrupo','Deptid', 'idGenero','grupo_personal.nombre as grupo_nombre', 'sub_grupo_personal.nombre as sub_grupo_nombre')
+            ->select('Userid as Userid', 'UserCode AS UserCode', 'Name AS Name', 'idGrupo', 'idSubGrupo','Deptid', 'idGenero','grupo_personal.nombre as grupo_nombre', 'sub_grupo_personal.nombre as sub_grupo_nombre', 'Pwd')
             ->first();
         return $data;
 
@@ -45,10 +43,13 @@ class PersonalModels
 
     }
 
-    static public function insertar($id_dispositivo,$usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero)
+    static public function insertar($usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero)
     {
+
+        $userid = PersonalModels::last_userID();
+
         $lastInsertID= DB::table('Userinfo')->insertGetId(
-            ['Userid' => $id_dispositivo, 'UserCode' => $usuario_nro, 'Name' => $nombre, 'Deptid' => $departamento, 'idGrupo' => $grupo, 'idSubGrupo' => $subgrupo,'idGenero'=>$idgenero]
+            ['Userid' => $userid, 'UserCode' => $usuario_nro, 'Name' => $nombre, 'Deptid' => $departamento, 'idGrupo' => $grupo, 'idSubGrupo' => $subgrupo,'idGenero'=>$idgenero]
         );
 
     }
@@ -78,6 +79,13 @@ class PersonalModels
             ->first();
         return $data;
 
+    }
+
+    static public function last_userID()
+    {
+
+        $result=DB::table('Userinfo')->max('Userid');
+        return $result+1;
     }
 
 

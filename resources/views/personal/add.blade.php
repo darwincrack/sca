@@ -41,15 +41,7 @@
 
 
 
-                    <div class="form-group{{ $errors->has('Userid') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">ID en dispositivos</label>
 
-                        <div class="col-lg-10"><input type="text" name="Userid" placeholder="Ejemplo: 225" class="form-control" value="{{ old('Userid') }}"> @if ($errors->has('Userid'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('Userid') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                    </div>
 
 
                     <div class="form-group{{ $errors->has('UserCode') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">Usuario Nro</label>

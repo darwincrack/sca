@@ -32,7 +32,7 @@
 
 
     <div class="table-responsive">
-    <table class="table table-bordered table-hover table-striped" id="users-table">
+    <table class="table table-bordered table-hover table-striped table-center" id="users-table">
 
         <thead>
         <tr>
@@ -41,6 +41,9 @@
             <th>Nombre</th>
             <th>Grupo</th>
             <th>Sub Grupo</th>
+            <th>Huella 1</th>
+            <th>Huella 2</th>
+            <th>PIN</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -70,6 +73,9 @@
                 {data: 'Name', name: 'Name'},
                 {data: 'grupo_nombre', name: 'grupo_personal.nombre'},
                 {data: 'sub_grupo_nombre', name: 'sub_grupo_personal.nombre'},
+                {data: 'huella1', name: 'huella1'},
+                {data: 'huella2', name: 'huella2'},
+                {data: 'Pwd', name: 'Pwd'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             pageLength: 25,

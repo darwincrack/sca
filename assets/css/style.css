@@ -8410,3 +8410,13 @@ input:not(#email):not(#password)
 
 
 td{text-transform: uppercase;}
+
+
+.table-center {
+    text-align: center;
+}
+
+.table-center th {
+    text-align: center;
+}
+
