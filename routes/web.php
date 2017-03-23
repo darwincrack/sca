@@ -32,6 +32,13 @@ Route::get('personal/subgrupo/{id_grupo}', 'PersonalController@select_subgrupo')
 
 
 
+
+Route::get('horario/{id}', 'HorarioController@index')->where('id','[0-9]+');
+Route::post('horario/add', 'HorarioController@store');
+Route::post('horario/editar/', 'HorarioController@store_editar');
+
+
+
 Route::get('grupo', 'GrupoController@index');
 Route::get('grupo/data', 'GrupoController@anyData');
 Route::get('grupo/add', 'GrupoController@add');

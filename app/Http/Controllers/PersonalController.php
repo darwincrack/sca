@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\models\PersonalModels;
+
 use App\models\ListaModels;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
@@ -47,6 +48,21 @@ class PersonalController extends Controller
                   
 
             })
+
+
+                        ->addColumn('horario', function ($personal)  {
+
+                if(Entrust::hasRole(['admin', 'operador']))
+                {
+                      return '<a href="horario/'.$personal->Userid.'" class="btn btn-xs btn-primary editar"><i class="fa fa-clock-o" aria-hidden="true"></i> Ver</a>';
+                }
+                else{
+                    return '-';
+                }
+                  
+
+            })
+
 
 
 
@@ -193,6 +209,23 @@ class PersonalController extends Controller
 
         return redirect('personal');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

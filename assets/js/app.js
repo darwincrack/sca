@@ -117,7 +117,7 @@ if (this.checked) {
 
 
 
-
+$('.clockpicker').clockpicker();
 
 
 $('#data_1 .input-group.date').datepicker({
@@ -130,3 +130,8 @@ $('#data_1 .input-group.date').datepicker({
     language: 'es'
 });
 /*fin datepicker*/
+
+
+
+
+
