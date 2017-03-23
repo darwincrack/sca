@@ -142,7 +142,3 @@ if($('#data_1 .input-group.date').length>0){
 
 /*fin datepicker*/
 
-
-
-
-

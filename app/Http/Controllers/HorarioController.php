@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 
 use App\models\HorariosModels;
 use App\models\PersonalModels;
+
 use App\models\ConfiguracionModels;
+
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use DB;
@@ -20,6 +22,7 @@ class HorarioController extends Controller
     {
         $this->middleware('auth');
     }
+
 
      public function index($id_persona)
     {
@@ -83,6 +86,7 @@ class HorarioController extends Controller
 
 
 
+
         $data_configuracion=ConfiguracionModels::listar();
         $tiempo_gracia=$data_configuracion->tiempo_gracia;
 
@@ -90,7 +94,10 @@ class HorarioController extends Controller
 
 
 
+
+
         HorariosModels::insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida,$inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia);
+
 
         $request->session()->flash('alert-success', 'Carga horaria almacenada con exito!!');
 
@@ -128,6 +135,7 @@ class HorarioController extends Controller
         $fin_asignacion              =   date('Y-m-d', strtotime($request->input("fin_asignacion")));
 
 
+
         $data_configuracion=ConfiguracionModels::listar();
 
         if(count($data_configuracion)>0){
@@ -141,9 +149,8 @@ class HorarioController extends Controller
 
 
 
-
-
         HorariosModels::editar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida,$inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia);
+
 
         $request->session()->flash('alert-success', 'Carga horaria almacenada con exito!!');
 

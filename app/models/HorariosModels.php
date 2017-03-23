@@ -28,7 +28,9 @@ class HorariosModels
 
 
 
+
     static public function insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia)
+
     {
 
 
@@ -43,7 +45,9 @@ class HorariosModels
 
 
             $lastInsertID= DB::table('TimeTable')->insertGetId(
+
                 ['Timename' => $timename, 'Intime' => $domingo_entrada, 'Outtime' => $domingo_salida, 'BIntime' => HorariosModels::calcular_hora($domingo_entrada,'120','resta'), 'EIntime' => HorariosModels::calcular_hora($domingo_entrada,'120'), 'BOuttime' => HorariosModels::calcular_hora($domingo_salida,'120','resta'),'EOuttime'=>HorariosModels::calcular_hora($domingo_salida,'120'),'Latetime'=>$tiempo_gracia,'Leavetime'=>'0','WorkDays'=>'1','Longtime'=>HorariosModels::calcular_minutos($domingo_entrada,$domingo_salida),'MustIn'=>'1','MustOut'=>'1']
+
             );
 
             $lastInsertID= DB::table('SchTime')->insertGetId(
@@ -59,7 +63,9 @@ class HorariosModels
             $timename=$id_personal.'_LUNES';
 
             $lastInsertID= DB::table('TimeTable')->insertGetId(
+
                 ['Timename' => $timename, 'Intime' => $lunes_entrada, 'Outtime' => $lunes_salida, 'BIntime' => HorariosModels::calcular_hora($lunes_entrada,'120','resta'), 'EIntime' => HorariosModels::calcular_hora($lunes_entrada,'120'), 'BOuttime' => HorariosModels::calcular_hora($lunes_salida,'120','resta'),'EOuttime'=>HorariosModels::calcular_hora($lunes_salida,'120'),'Latetime'=>$tiempo_gracia,'Leavetime'=>'0','WorkDays'=>'1','Longtime'=>HorariosModels::calcular_minutos($lunes_entrada,$lunes_salida),'MustIn'=>'1','MustOut'=>'1']
+
             );
 
             $lastInsertID= DB::table('SchTime')->insertGetId(
@@ -74,7 +80,9 @@ class HorariosModels
             $timename=$id_personal.'_MARTES';
 
             $lastInsertID= DB::table('TimeTable')->insertGetId(
+
                 ['Timename' => $timename, 'Intime' => $martes_entrada, 'Outtime' => $martes_salida, 'BIntime' => HorariosModels::calcular_hora($martes_entrada,'120','resta'), 'EIntime' => HorariosModels::calcular_hora($martes_entrada,'120'), 'BOuttime' => HorariosModels::calcular_hora($martes_salida,'120','resta'),'EOuttime'=>HorariosModels::calcular_hora($martes_salida,'120'),'Latetime'=>$tiempo_gracia,'Leavetime'=>'0','WorkDays'=>'1','Longtime'=>HorariosModels::calcular_minutos($martes_entrada,$martes_salida),'MustIn'=>'1','MustOut'=>'1']
+
             );
 
             $lastInsertID= DB::table('SchTime')->insertGetId(
@@ -89,7 +97,9 @@ class HorariosModels
         $timename=$id_personal.'_MIERCOLES';
 
             $lastInsertID= DB::table('TimeTable')->insertGetId(
+
                 ['Timename' => $timename, 'Intime' => $miercoles_entrada, 'Outtime' => $miercoles_salida, 'BIntime' => HorariosModels::calcular_hora($miercoles_entrada,'120','resta'), 'EIntime' => HorariosModels::calcular_hora($miercoles_entrada,'120'), 'BOuttime' => HorariosModels::calcular_hora($miercoles_salida,'120','resta'),'EOuttime'=>HorariosModels::calcular_hora($miercoles_salida,'120'),'Latetime'=>$tiempo_gracia,'Leavetime'=>'0','WorkDays'=>'1','Longtime'=>HorariosModels::calcular_minutos($miercoles_entrada,$miercoles_salida),'MustIn'=>'1','MustOut'=>'1']
+
             );
 
         $lastInsertID= DB::table('SchTime')->insertGetId(
@@ -102,7 +112,9 @@ class HorariosModels
             $timename=$id_personal.'_JUEVES';
 
             $lastInsertID= DB::table('TimeTable')->insertGetId(
+
                 ['Timename' => $timename, 'Intime' => $jueves_entrada, 'Outtime' => $jueves_salida, 'BIntime' => HorariosModels::calcular_hora($jueves_entrada,'120','resta'), 'EIntime' => HorariosModels::calcular_hora($jueves_entrada,'120'), 'BOuttime' => HorariosModels::calcular_hora($jueves_salida,'120','resta'),'EOuttime'=>HorariosModels::calcular_hora($jueves_salida,'120'),'Latetime'=>$tiempo_gracia,'Leavetime'=>'0','WorkDays'=>'1','Longtime'=>HorariosModels::calcular_minutos($jueves_entrada,$jueves_salida),'MustIn'=>'1','MustOut'=>'1']
+
             );
 
             $lastInsertID= DB::table('SchTime')->insertGetId(
@@ -116,7 +128,9 @@ class HorariosModels
             $timename=$id_personal.'_VIERNES';
 
             $lastInsertID= DB::table('TimeTable')->insertGetId(
+
                 ['Timename' => $timename, 'Intime' => $viernes_entrada, 'Outtime' => $viernes_salida, 'BIntime' => HorariosModels::calcular_hora($viernes_entrada,'120','resta'), 'EIntime' => HorariosModels::calcular_hora($viernes_entrada,'120'), 'BOuttime' => HorariosModels::calcular_hora($viernes_salida,'120','resta'),'EOuttime'=>HorariosModels::calcular_hora($viernes_salida,'120'),'Latetime'=>$tiempo_gracia,'Leavetime'=>'0','WorkDays'=>'1','Longtime'=>HorariosModels::calcular_minutos($viernes_entrada,$viernes_salida),'MustIn'=>'1','MustOut'=>'1']
+
             );
 
             $lastInsertID= DB::table('SchTime')->insertGetId(
@@ -129,7 +143,9 @@ class HorariosModels
             $timename=$id_personal.'_SABADO';
 
             $lastInsertID= DB::table('TimeTable')->insertGetId(
+
                 ['Timename' => $timename, 'Intime' => $sabado_entrada, 'Outtime' => $sabado_salida, 'BIntime' => HorariosModels::calcular_hora($sabado_entrada,'120','resta'), 'EIntime' => HorariosModels::calcular_hora($sabado_entrada,'120'), 'BOuttime' => HorariosModels::calcular_hora($sabado_salida,'120','resta'),'EOuttime'=>HorariosModels::calcular_hora($sabado_salida,'120'),'Latetime'=>$tiempo_gracia,'Leavetime'=>'0','WorkDays'=>'1','Longtime'=>HorariosModels::calcular_minutos($sabado_entrada,$sabado_salida),'MustIn'=>'1','MustOut'=>'1']
+
             );
 
 
@@ -159,7 +175,9 @@ class HorariosModels
     }
 
 
+
     static public function editar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia)
+
     {
 
 
@@ -194,7 +212,9 @@ class HorariosModels
                 ->delete();
 
 
+
             HorariosModels::insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia);
+
 
 
         }
