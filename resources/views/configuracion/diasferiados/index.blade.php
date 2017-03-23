@@ -3,9 +3,9 @@
 
 
     @push('boton_accion')
-    <a href="{{ url('/personal/add') }}" class="btn btn-primary">
+    <a href="{{ url('/configuracion/diasferiados/add') }}" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus"></span>
-        Nuevo Personal
+        Nuevo Feriado
     </a>
     @endpush
 
@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="{{ URL::asset('assets/css/plugins/dataTables/dataTables.min.css') }}">
 @endpush
 
-@section('title', 'Personal')
+@section('title', 'Dias Feriados')
 
 @section('content')
 
@@ -36,16 +36,11 @@
 
         <thead>
         <tr>
-            <th>ID dispositivo</th>
-            <th>Usuario Nro.</th>
             <th>Nombre</th>
-            <th>Grupo</th>
-            <th>Sub Grupo</th>
-            <th>Huella 1</th>
-            <th>Huella 2</th>
-            <th>PIN</th>
-            <th>Horario</th>
+            <th>Fecha de Inicio</th>
+            <th>Duracion en dias</th>
             <th>Action</th>
+            <th>Eliminar</th>
         </tr>
         </thead>
     </table>
@@ -65,20 +60,15 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
             },
-            ajax: 'personal/data',
+            ajax: 'diasferiados/data',
             "order": [[ 0, "desc" ]],
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             columns: [
-                {data: 'Userid', name: 'Userid'},
-                {data: 'UserCode', name: 'UserCode'},      
                 {data: 'Name', name: 'Name'},
-                {data: 'grupo_nombre', name: 'grupo_personal.nombre'},
-                {data: 'sub_grupo_nombre', name: 'sub_grupo_personal.nombre'},
-                {data: 'huella1', name: 'huella1'},
-                {data: 'huella2', name: 'huella2'},
-                {data: 'Pwd', name: 'Pwd'},
-                {data: 'horario', name: 'horario', orderable: false, searchable: false},
-                {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'BDate', name: 'Bdate'},
+                {data: 'Days', name: 'Days'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+                {data: 'delete', name: 'delete', orderable: false, searchable: false}
             ],
             pageLength: 25,
             responsive: true,
@@ -86,8 +76,8 @@
             buttons: [
                 { extend: 'copy'},
                 {extend: 'csv'},
-                {extend: 'excel', title: 'Reporte de Personal'},
-                {extend: 'pdf', title: 'Reporte de Personal'},
+                {extend: 'excel', title: 'Reporte de dias feriados'},
+                {extend: 'pdf', title: 'Reporte de dias feriados'},
 
                 {extend: 'print',
                     customize: function (win){

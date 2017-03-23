@@ -19,11 +19,21 @@
     <div>
         <div>
 
-            <h1 class="logo-name">SCA</h1>
+                   <h1 class="logo-name">
+
+            @if ($data_configuracion->prioridad==1) 
+             {{$data_configuracion->nombre_corto_sistema}} 
+
+            @elseif ($data_configuracion->prioridad==2) 
+                <img alt="image"  src="{{ URL::asset('assets/img/'.$data_configuracion->path_logo) }}" height="56px">
+            @endif
+
+          </h1>
 
         </div>
-        <h3>Crear cuenta en    SCA</h3>
-        <p>Sistema de Control de Asistencia</p>
+            <p>  {{$data_configuracion->nombre_sistema}} </p>
+        <h3>CREAR CUENTA </h3>
+    
         <form class="m-t" role="form" method="POST" action="{{ url('/register') }}">
             {{ csrf_field() }}
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

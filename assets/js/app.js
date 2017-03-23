@@ -117,16 +117,32 @@ if (this.checked) {
 
 
 
+if($('.clockpicker').length>0){
+
+    $('.clockpicker').clockpicker();
+}
+
+
+if($('#data_1 .input-group.date').length>0){
+
+
+    $('#data_1 .input-group.date').datepicker({
+        format: "dd-mm-yyyy",
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        language: 'es'
+    });
+}
 
 
 
-$('#data_1 .input-group.date').datepicker({
-    format: "dd-mm-yyyy",
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    calendarWeeks: true,
-    autoclose: true,
-    language: 'es'
-});
+
 /*fin datepicker*/
+
+
+
+
+

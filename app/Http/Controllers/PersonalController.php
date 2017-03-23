@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\models\PersonalModels;
+
 use App\models\ListaModels;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
@@ -20,8 +21,10 @@ class PersonalController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
+        ConfiguracionController::set_session($request);
+
         return view('personal.index');
     }
 
@@ -49,6 +52,21 @@ class PersonalController extends Controller
             })
 
 
+                        ->addColumn('horario', function ($personal)  {
+
+                if(Entrust::hasRole(['admin', 'operador']))
+                {
+                      return '<a href="horario/'.$personal->Userid.'" class="btn btn-xs btn-primary editar"><i class="fa fa-clock-o" aria-hidden="true"></i> Ver</a>';
+                }
+                else{
+                    return '-';
+                }
+                  
+
+            })
+
+
+
 
             ->editColumn('huella1', function ($personal) {
                 if($personal->huella1!=''){
@@ -70,6 +88,11 @@ class PersonalController extends Controller
 
 
             })
+
+
+
+
+
 
 
             ->make(true);
@@ -193,6 +216,23 @@ class PersonalController extends Controller
 
         return redirect('personal');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

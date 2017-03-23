@@ -32,6 +32,13 @@ Route::get('personal/subgrupo/{id_grupo}', 'PersonalController@select_subgrupo')
 
 
 
+
+Route::get('horario/{id}', 'HorarioController@index')->where('id','[0-9]+');
+Route::post('horario/add', 'HorarioController@store');
+Route::post('horario/editar/', 'HorarioController@store_editar');
+
+
+
 Route::get('grupo', 'GrupoController@index');
 Route::get('grupo/data', 'GrupoController@anyData');
 Route::get('grupo/add', 'GrupoController@add');
@@ -46,3 +53,18 @@ Route::get('subgrupo/add', 'SubGrupoController@add');
 Route::post('subgrupo/add', 'SubGrupoController@store');
 Route::get('subgrupo/editar/{id}', 'SubGrupoController@editar')->where('id','[0-9]+');
 Route::post('subgrupo/editar/', 'SubGrupoController@store_editar');
+
+
+Route::get('configuracion', 'ConfiguracionController@index');
+Route::post('configuracion', 'ConfiguracionController@store_editar');
+
+
+Route::get('configuracion/diasferiados', 'ConfiguracionController@diasferiados');
+Route::get('configuracion/diasferiados/data', 'ConfiguracionController@anyData');
+Route::get('configuracion/diasferiados/add', 'ConfiguracionController@add_diasferiados');
+Route::post('configuracion/diasferiados/add', 'ConfiguracionController@store_diasferiados');
+Route::get('configuracion/diasferiados/editar/{id}', 'ConfiguracionController@editar_diasferiados')->where('id','[0-9]+');
+Route::post('configuracion/diasferiados/editar/', 'ConfiguracionController@store_editar_diasferiados');
+
+Route::get('configuracion/diasferiados/delete/{id}', 'ConfiguracionController@delete_diasferiados')->where('id','[0-9]+');
+

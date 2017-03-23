@@ -4,10 +4,28 @@
             <li class="nav-header ">
 
                 <div class=" profile-element">
-                    <a href="{{ url('/') }}" alt="Ir a Inicio"> <h1>SCA</h1></a>
+                    <a href="{{ url('/') }}" alt="Ir a Inicio">
+                        <h1 class="text-uppercase">
+
+        @if (Session::has('prioridad')) 
+
+            @if (Session::get('prioridad')==1) 
+             {{Session::get('nombre_corto_sistema')}} 
+
+            @elseif (Session::get('prioridad')==2) 
+                <img alt="image"  src="{{ URL::asset('assets/img/'.Session::get('logo')) }}" height="56px">
+            @endif
+
+        @endif
+                        </h1>
+
+                    </a>
                 </div>
                 <div class="logo-element">
-                    SCA
+                    @if (Session::has('nombre_corto_sistema')) 
+                           {{Session::get('nombre_corto_sistema')}} 
+                    @endif       
+
                 </div>
             </li>
 
@@ -79,6 +97,28 @@
                 @role(['admin','operador'])     
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'subgrupo/add') ? 'active' : '' }}"><a href="{{ url('subgrupo/add') }}"><a href="{{ url('/subgrupo/add') }}">Agregar</a></li>
                 @endrole    
+                </ul>
+            </li>
+
+
+
+
+
+            <li class=" @if (Route::getCurrentRoute()->getPath() == 'configuracion')
+                    active
+                 @elseif (Route::getCurrentRoute()->getPath() == 'configuracion/general')
+                    active
+                    @elseif (Route::getCurrentRoute()->getPath() == 'configuracion/diasferiados')
+                    active
+                @endif ">
+                <a href="index.html"><i class="fa fa-university" aria-hidden="true"></i> <span class="nav-label">configuracion</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li></li>
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'configuracion') ? 'active' : '' }}"><a href="{{ url('configuracion') }}"><a href="{{ url('/configuracion') }}">General</a></li>
+
+                    @role(['admin','operador'])
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'configuracion/diasferiados') ? 'active' : '' }}"><a href="{{ url('configuracion/diasferiados') }}"><a href="{{ url('/configuracion/diasferiados') }}">Dias Feriados</a></li>
+                    @endrole
                 </ul>
             </li>
 

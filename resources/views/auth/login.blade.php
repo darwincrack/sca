@@ -19,10 +19,22 @@
     <div>
         <div>
 
-            <h1 class="logo-name">SCA</h1>
+
+        <h1 class="logo-name">
+
+            @if ($data_configuracion->prioridad==1) 
+             {{$data_configuracion->nombre_corto_sistema}} 
+
+            @elseif ($data_configuracion->prioridad==2) 
+                <img alt="image"  src="{{ URL::asset('assets/img/'.$data_configuracion->path_logo) }}" height="56px">
+            @endif
+
+          </h1>
 
         </div>
-        <h3>Sistema de Control de Asistencia (SCA)</h3>
+        <h3>   
+               {{$data_configuracion->nombre_sistema}} 
+        </h3>
 
         @if ($errors->has('email'))
         <div class="alert alert-danger alert-dismissable">
