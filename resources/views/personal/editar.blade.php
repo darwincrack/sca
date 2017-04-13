@@ -76,6 +76,17 @@
                     </div>
 
 
+                    <div class="form-group{{ $errors->has('cedula') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">C&eacute;dula</label>
+
+                        <div class="col-lg-10"><input type="text" name="cedula" placeholder="Ejemplo: 19829" class="form-control" value="{{ $data_personal->cedula }}"> @if ($errors->has('cedula'))
+                                <span class="help-block">
+                                        <strong>{{ $errors->first('cedula') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                    </div>
+
+
                     <div class="form-group"><label class="col-sm-2 control-label">genero</label>
 
                         <div class="col-sm-10">

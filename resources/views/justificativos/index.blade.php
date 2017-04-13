@@ -3,9 +3,10 @@
 
 
     @push('boton_accion')
-    <a href="{{ url('/grupo/add') }}" class="btn btn-primary">
+    <a href="{{ url('/reportes') }}" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus"></span>
-        Nuevo Grupo
+              Reporte General
+
     </a>
     @endpush
 
@@ -15,7 +16,7 @@
 <link rel="stylesheet" href="{{ URL::asset('assets/css/plugins/dataTables/dataTables.min.css') }}">
 @endpush
 
-@section('title', 'Grupos')
+@section('title', 'Justificativos')
 
 @section('content')
 
@@ -36,11 +37,14 @@
 
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Nombre </th>
-                <th>Descripción</th>
-                <th>Activo</th>
-                <th>Action</th>
+                <th>Nombre</th>
+                <th>Fecha de Inicio </th>
+                <th>Fecha Final</th>
+                <th>Tipo de Justificativo</th>
+                <th>Motivo</th>
+                <th>Tipo de Falta</th>
+                <th>PDF</th>
+                <th>Accion</th>
             </tr>
             </thead>
         </table>
@@ -60,27 +64,39 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
             },
-            ajax: 'grupo/data',
+            "fnDrawCallback": function (oSettings) {
+                $("td:has(.falta-primary)").css("background", "#aafaad");
+                $("td:has(.falta-danger)").css("background", "#ff3019");
+                $("td:has(.falta-warning)").css("background", "#ff8");
+            },
+            ajax: 'justificativos/data',
             "order": [[ 0, "desc" ]],
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             columns: [
-                {data: 'id', name: 'id'},
-                {data: 'nombre', name: 'nombre'},
-                {data: 'descripcion', name: 'descripcion'},
-                {data: 'activo', name: 'activo'},
-                {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'Name', name: 'Userinfo.Name'},
+                {data: 'BeginTime', name: 'UserLeave.BeginTime'},
+                {data: 'EndTime', name: 'UserLeave.EndTime'},
+                {data: 'Classname', name: 'LeaveClass.Classname'},
+                {data: 'Whys', name: 'UserLeave.Whys'},
+                {data: 'tipo_falta', name: 'tipo_falta', searchable: false},
+                {data: 'pdf', name: 'pdf', orderable: false, searchable: false},
+                {data: 'delete', name: 'delete', orderable: false, searchable: false}
             ],
             pageLength: 25,
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
-                { extend: 'copy'},
-                {extend: 'csv'},
-                {extend: 'excel', title: 'Reporte de Grupos',  exportOptions: {
-                    columns: [ 0, 1, 2,3 ]
+                { extend: 'copy',  exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5]
                 }},
-                {extend: 'pdf', title: 'Reporte de Grupos', exportOptions: {
-                    columns: [ 0, 1, 2, 3 ]
+                {extend: 'csv', title: 'Reporte de Justificativos',  exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5]
+                }},
+                {extend: 'excel', title: 'Reporte de Justificativos', exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5]
+                }},
+                {extend: 'pdf', title: 'Reporte de Justificativos',  exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5]
                 }},
 
                 {extend: 'print',

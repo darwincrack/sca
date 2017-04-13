@@ -121,6 +121,23 @@
 
                     </div>
                 </div>
+
+                    <div class="form-group content_turno"   {{($lactancia>=1)?"style=display:block":"style=display:none"}}><label class="col-sm-2 control-label">Turno </label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" class="form-control m-b" name="turno" id="turno">
+
+                     
+
+                                    <option value="1"  {{($periodo=='1')?"selected":""}}>Entrada </option>
+                                    <option value="2"  {{($periodo=='2')?"selected":""}}>Salida </option>
+
+                     
+                            </select>
+                        </div>
+                    </div>
+          
+
                 @endif
 
                 <div class="form-group{{ $errors->has('inicio_asignacion') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">Inicio Asignacion</label>
@@ -159,13 +176,17 @@
 
                     </div>
                 </div>
+
+
+
+                @role(['admin','operador'])
                 <div class="form-group">
                     <div class="col-lg-offset-4 col-lg-5">
                         <button class="btn btn-block btn-primary" type="submit" title="Enviar datos para guardar">Guardar</button>
 
                     </div>
                 </div>
-
+                @endrole
             </form>
         </div>
     </div>
@@ -179,6 +200,19 @@
 <script src="{{ URL::asset('assets/js/plugins/clockpicker/clockpicker.js') }}"></script>
 
 <script src="{{ URL::asset('assets/js/app.js') }}"></script>
+<script>
+        $("#lactancia").click(function() {
+        if($("#lactancia").is(':checked')) {
+            $(".content_turno").css("display","block");
+
+        } else {
+            $(".content_turno").css("display","none");
+
+
+        }
+    });
+
+</script>
 
 @endpush
 

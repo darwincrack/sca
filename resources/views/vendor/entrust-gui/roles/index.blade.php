@@ -31,6 +31,7 @@
                     <a href="{{ route('entrust-gui::roles.edit', $model->id) }}" class="btn btn-sm btn-primary editar"><i class="glyphicon glyphicon-edit"></i> Edit</a>
 
                     <button type="submit" class="btn btn-sm btn-danger"><span class="btn-label"><i class="fa fa-trash"></i></span> Eliminar</button>
+ 
 
 
                 </form>

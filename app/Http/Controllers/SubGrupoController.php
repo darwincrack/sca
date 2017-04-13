@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\models\SubGrupoModels;
+use App\models\LogsistemaModels;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use App\Http\Requests\Requests;
@@ -79,6 +80,7 @@ class SubGrupoController extends Controller
 
 
         SubGrupoModels::insertar($nombre,$descripcion,$grupo);
+        LogsistemaModels::insertar('SUBGRUPO','INSERT');
 
         $request->session()->flash('alert-success', 'Sub Grupo agregado con exito!!');
 
@@ -115,6 +117,7 @@ class SubGrupoController extends Controller
 
 
             SubGrupoModels::editar($id_sub_grupo,$nombre,$descripcion,$activo,$grupo);
+        LogsistemaModels::insertar('SUBGRUPO','EDIT');
 
             $request->session()->flash('alert-success', 'Sub Grupo editado con exito!!');
 

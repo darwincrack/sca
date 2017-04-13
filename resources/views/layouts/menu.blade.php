@@ -30,6 +30,9 @@
             </li>
 
 
+
+
+
         @role('admin')
             <li class=" @if (Route::getCurrentRoute()->getPath() == 'usuarios/users')
                     active
@@ -67,6 +70,40 @@
                 </ul>
             </li>
 
+
+            <li class=" @if (Route::getCurrentRoute()->getPath() == 'reportes')
+                    active
+                    @elseif (Route::getCurrentRoute()->getPath() == 'reportes/justificativos')
+                    active
+                @endif ">
+                <a href="index.html"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li></li>
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'reportes') ? 'active' : '' }}"><a href="{{ url('reportes') }}"><a href="{{ url('/reportes') }}">General</a></li>
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'reportes/justificativos') ? 'active' : '' }}"><a href="{{ url('reportes/justificativos') }}"><a href="{{ url('/reportes/justificativos') }}">Justificativos</a></li>
+
+                </ul>
+            </li>
+
+
+
+            <li class=" @if (Route::getCurrentRoute()->getPath() == 'tiposjustificacion')
+                    active
+                 @elseif (Route::getCurrentRoute()->getPath() == 'tiposjustificacion/add')
+                    active
+                @endif ">
+                <a href="index.html"><i class="fa fa-user-md" aria-hidden="true"></i> <span class="nav-label">Tipos de Justificaci&oacute;n</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li></li>
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'tiposjustificacion') ? 'active' : '' }}"><a href="{{ url('tiposjustificacion') }}"><a href="{{ url('/tiposjustificacion') }}">Listar</a></li>
+            @role(['admin','operador'])        
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'tiposjustificacion/add') ? 'active' : '' }}"><a href="{{ url('tiposjustificacion/add') }}"><a href="{{ url('/tiposjustificacion/add') }}">Agregar</a></li>
+            @endrole       
+                </ul>
+            </li>
+
+
+
             <li class=" @if (Route::getCurrentRoute()->getPath() == 'grupo')
                     active
                  @elseif (Route::getCurrentRoute()->getPath() == 'grupo/add')
@@ -103,7 +140,7 @@
 
 
 
-
+            @role(['admin','operador'])
             <li class=" @if (Route::getCurrentRoute()->getPath() == 'configuracion')
                     active
                  @elseif (Route::getCurrentRoute()->getPath() == 'configuracion/general')
@@ -111,7 +148,7 @@
                     @elseif (Route::getCurrentRoute()->getPath() == 'configuracion/diasferiados')
                     active
                 @endif ">
-                <a href="index.html"><i class="fa fa-university" aria-hidden="true"></i> <span class="nav-label">configuracion</span> <span class="fa arrow"></span></a>
+                <a href="index.html"><i class="fa fa-bars" aria-hidden="true"></i> <span class="nav-label">configuraci&oacute;n</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li></li>
                     <li class="{{ (Route::getCurrentRoute()->getPath() == 'configuracion') ? 'active' : '' }}"><a href="{{ url('configuracion') }}"><a href="{{ url('/configuracion') }}">General</a></li>
@@ -121,6 +158,7 @@
                     @endrole
                 </ul>
             </li>
+            @endrole
 
 
 
@@ -130,7 +168,16 @@
 
 
 
+            <li class=" @if (Route::getCurrentRoute()->getPath() == 'logsistema')
+                    active
+                @endif ">
+                <a href="index.html"><i class="fa fa-bookmark-o" aria-hidden="true"></i> <span class="nav-label">Log del sistema</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li></li>
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'logsistema') ? 'active' : '' }}"><a href="{{ url('logsistema') }}"><a href="{{ url('/logsistema') }}">Listar</a></li>
 
+                </ul>
+            </li>
 
 
 

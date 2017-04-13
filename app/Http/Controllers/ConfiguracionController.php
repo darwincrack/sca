@@ -52,27 +52,37 @@ class ConfiguracionController extends Controller
         $file                       =   $request->file("logo");
         $logo_old                   =   $request->input("logo_old");
         $quitar_logo                =   $request->input("quitar_logo");
-
+        $base64_img                 =   $request->input("base64_img");
 
         if($request->hasFile('logo')){
             $nombre_logo=$file->getClientOriginalName();
             $file->move('assets/img',$file->getClientOriginalName());
+
+            $path = 'assets/img/'.$nombre_logo;
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64_img = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+
+
         }
         else{
             $nombre_logo= $logo_old;
+           // $base64_img= 
         }
 
 
         if($quitar_logo=='1')
         {
             $nombre_logo='';
+            $base64_img='';
         }
 
 
 
 
 
-        ConfiguracionModels::editar($tiempo_gracia,$nombre_sistema,$nombre_corto_sistema,$prioridad,$nombre_logo);
+        ConfiguracionModels::editar($tiempo_gracia,$nombre_sistema,$nombre_corto_sistema,$prioridad,$nombre_logo,$base64_img);
 
 
         ConfiguracionController::set_session($request,$tiempo_gracia,$nombre_sistema,$nombre_corto_sistema,$prioridad,$nombre_logo);
@@ -286,6 +296,7 @@ class ConfiguracionController extends Controller
         $request->session()->put('nombre_corto_sistema',trim($data_configuracion->nombre_corto_sistema));
         $request->session()->put('prioridad',trim($data_configuracion->prioridad));
         $request->session()->put('logo',trim($data_configuracion->path_logo));
+        $request->session()->put('logo_base64',trim($data_configuracion->base64_img));
 
     }
 

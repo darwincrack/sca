@@ -74,10 +74,18 @@
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
-                { extend: 'copy'},
-                {extend: 'csv'},
-                {extend: 'excel', title: 'Reporte de dias feriados'},
-                {extend: 'pdf', title: 'Reporte de dias feriados'},
+                { extend: 'copy', title: 'Reporte de dias feriados', exportOptions: {
+                    columns: [ 0, 1, 2, ]
+                }},
+                {extend: 'csv', title: 'Reporte de dias feriados', exportOptions: {
+                    columns: [ 0, 1, 2, ]
+                }},
+                {extend: 'excel', title: 'Reporte de dias feriados', exportOptions: {
+                    columns: [ 0, 1, 2, ]
+                }},
+                {extend: 'pdf', title: 'Reporte de dias feriados', exportOptions: {
+                    columns: [ 0, 1, 2]
+                }},
 
                 {extend: 'print',
                     customize: function (win){

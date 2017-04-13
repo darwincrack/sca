@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\models\PersonalModels;
 
 use App\models\ListaModels;
+use App\models\LogsistemaModels;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use DB;
@@ -54,13 +55,10 @@ class PersonalController extends Controller
 
                         ->addColumn('horario', function ($personal)  {
 
-                if(Entrust::hasRole(['admin', 'operador']))
-                {
+
                       return '<a href="horario/'.$personal->Userid.'" class="btn btn-xs btn-primary editar"><i class="fa fa-clock-o" aria-hidden="true"></i> Ver</a>';
-                }
-                else{
-                    return '-';
-                }
+
+
                   
 
             })
@@ -115,13 +113,21 @@ class PersonalController extends Controller
     }
 
 
-    public function select_subgrupo($id_grupo){
+    public function select_subgrupo($id_grupo=FALSE){
 
         $data_subgrupos     = ListaModels::subGrupoPersonal($id_grupo);
 
         return Response::json(['success'=>true,'data'=>$data_subgrupos]);
     }
 
+
+
+    public function select_personal($id_grupo=FALSE, $id_subgrupo=FALSE){
+
+        $data_personal     = ListaModels::Personal($id_grupo,$id_subgrupo);
+
+        return Response::json(['success'=>true,'data'=>$data_personal]);
+    }
 
 
 
@@ -154,6 +160,7 @@ class PersonalController extends Controller
                 'nombre' => 'required|max:50',
 
                 'UserCode' => 'required|numeric|unique:Userinfo',
+                'cedula' => 'required|numeric|unique:Userinfo',
             ]
             );
 
@@ -166,11 +173,13 @@ class PersonalController extends Controller
         $grupo              =   $request->input("grupo");
         $subgrupo           =   $request->input("subgrupo");
         $idgenero           =   $request->input("genero");
+        $cedula           =   $request->input("cedula");
 
 
 
 
-        PersonalModels::insertar($usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero);
+        PersonalModels::insertar($usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero,$cedula);
+        LogsistemaModels::insertar('PERSONAL','INSERT');
 
         $request->session()->flash('alert-success', 'Personal agregado con exito!!');
 
@@ -186,6 +195,7 @@ class PersonalController extends Controller
             $this->validate($request, [
                 'nombre' => 'required|max:50',
                 'UserCode' => 'required|numeric',
+                'cedula' => 'required|numeric',
 
             ]);
 
@@ -197,6 +207,7 @@ class PersonalController extends Controller
         $grupo                    =   $request->input("grupo");
         $subgrupo                 =   $request->input("subgrupo");
         $idgenero                 =   $request->input("genero");
+         $cedula           =   $request->input("cedula");
 
 
         if($grupo==''){
@@ -210,8 +221,8 @@ class PersonalController extends Controller
 
 
 
-        PersonalModels::editar($id_personal,$usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero);
-
+        PersonalModels::editar($id_personal,$usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero,$cedula);
+        LogsistemaModels::insertar('PERSONAL','EDIT');
         $request->session()->flash('alert-success', 'Personal editado con exito!!');
 
         return redirect('personal');

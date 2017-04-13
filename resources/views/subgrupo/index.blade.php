@@ -72,8 +72,12 @@
             buttons: [
                 { extend: 'copy'},
                 {extend: 'csv'},
-                {extend: 'excel', title: 'Reporte de Tipo de Procedencia'},
-                {extend: 'pdf', title: 'Reporte de Tipo de Procedencia'},
+                {extend: 'excel', title: 'Reporte de Subgrupos',  exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                }},
+                {extend: 'pdf', title: 'Reporte de Subgrupos',  exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                }},
 
                 {extend: 'print',
                     customize: function (win){

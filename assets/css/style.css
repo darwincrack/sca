@@ -8409,7 +8409,7 @@ input:not(#email):not(#password)
 
 
 
-td{text-transform: uppercase;}
+/*td{text-transform: uppercase;}*/
 
 
 .table-center {
@@ -8420,3 +8420,10 @@ td{text-transform: uppercase;}
     text-align: center;
 }
 
+.falta{
+  font-weight: bold;
+}
+
+.falta-danger{
+  color: white;
+}

@@ -38,6 +38,7 @@
         <tr>
             <th>ID dispositivo</th>
             <th>Usuario Nro.</th>
+            <th>C&eacute;dula</th>
             <th>Nombre</th>
             <th>Grupo</th>
             <th>Sub Grupo</th>
@@ -70,7 +71,8 @@
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             columns: [
                 {data: 'Userid', name: 'Userid'},
-                {data: 'UserCode', name: 'UserCode'},      
+                {data: 'UserCode', name: 'UserCode'},   
+                 {data: 'cedula', name: 'cedula'},    
                 {data: 'Name', name: 'Name'},
                 {data: 'grupo_nombre', name: 'grupo_personal.nombre'},
                 {data: 'sub_grupo_nombre', name: 'sub_grupo_personal.nombre'},
@@ -84,10 +86,18 @@
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
-                { extend: 'copy'},
-                {extend: 'csv'},
-                {extend: 'excel', title: 'Reporte de Personal'},
-                {extend: 'pdf', title: 'Reporte de Personal'},
+                { extend: 'copy', exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7,8 ]
+                }},
+                {extend: 'csv', exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7,8 ]
+                }},
+                {extend: 'excel', title: 'Reporte de Personal', exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7,8 ]
+                }},
+                {extend: 'pdf', title: 'Reporte de Personal',  exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7,8 ]
+                }},
 
                 {extend: 'print',
                     customize: function (win){

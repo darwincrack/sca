@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\models\GrupoModels;
+use App\models\LogsistemaModels;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use App\Http\Requests\Requests;
@@ -78,6 +79,7 @@ class GrupoController extends Controller
 
 
         GrupoModels::insertar($nombre,$descripcion);
+        LogsistemaModels::insertar('GRUPO','INSERT');
 
         $request->session()->flash('alert-success', 'Grupo agregado con exito!!');
 
@@ -113,7 +115,7 @@ class GrupoController extends Controller
 
 
             GrupoModels::editar($id_grupo,$nombre,$descripcion,$activo);
-
+            LogsistemaModels::insertar('GRUPO','EDIT');
             $request->session()->flash('alert-success', 'Grupo editado con exito!!');
 
             return redirect('grupo');

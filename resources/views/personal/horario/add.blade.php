@@ -92,21 +92,37 @@
 
 
                     @if ($genero=='2')
-                    <div class="form-group"><label class="col-lg-2 control-label">Lactancia </label>
+                <div class="form-group"><label class="col-lg-2 control-label">Lactancia</label>
 
-                        <div class="col-lg-10">
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox"    class="onoffswitch-checkbox" id="activo" name="activo" value="1"   >
-                                    <label class="onoffswitch-label" for="activo">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
+                    <div class="col-lg-10">
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox"    class="onoffswitch-checkbox" id="lactancia" name="lactancia" value="1"    >
+                                <label class="onoffswitch-label" for="lactancia">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
                             </div>
+                        </div>
 
+                    </div>
+                </div>
+
+                    <div class="form-group content_turno"   style="display:none"><label class="col-sm-2 control-label">Turno </label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" class="form-control m-b" name="turno" id="turno">
+
+                     
+
+                                    <option value="1">Entrada </option>
+                                    <option value="2">Salida </option>
+
+                     
+                            </select>
                         </div>
                     </div>
+
                     @endif
 
                     <div class="form-group{{ $errors->has('inicio_asignacion') ? ' has-error' : '' }}"><label class="col-lg-2 control-label">Inicio Asignacion</label>
@@ -145,6 +161,8 @@
 
                         </div>
                     </div>
+
+
                     <div class="form-group">
                         <div class="col-lg-offset-4 col-lg-5">
                             <button class="btn btn-block btn-primary" type="submit" title="Enviar datos para guardar">Guardar</button>

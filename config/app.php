@@ -1,3 +1,4 @@
+
 <?php
 
 return [
@@ -12,7 +13,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'SCA',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +166,7 @@ return [
 		Acoustep\EntrustGui\EntrustGuiServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
 
+
        // Yajra\Datatables\DatatablesServiceProvider::class,
 
 
@@ -185,6 +187,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
 
     ],
 
@@ -235,6 +238,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 		'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
 
 
 

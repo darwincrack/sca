@@ -3,7 +3,7 @@
 @push('boton_accion')
 <a href="{{ url('/configuracion/') }}" class="btn btn-primary">
     <span class="glyphicon glyphicon-plus"></span>
-    Configuracion
+    Configuraci&oacute;n
 </a>
 @endpush
 
@@ -13,7 +13,7 @@
 
 @endpush
 
-@section('title', 'Configuracion del Sistema')
+@section('title', 'Configuraci&oacute;n del Sistema')
 
 @section('content')
 
@@ -102,7 +102,8 @@
                 <div class="form-group"><label class="col-lg-2 control-label">Logo Actual</label>
 
                     <div class="col-lg-10">
-                        <img src="{{ URL::asset('assets/img/'.$data_configuracion->path_logo) }}" alt="logo" width="200" style="margin-bottom: 10px">
+                    <img src="{{$data_configuracion->base64_img}}" alt="logo" width="200" style="margin-bottom: 10px">
+                    <input type="hidden" name="base64_img" value="{{$data_configuracion->base64_img}}"></input>
 
                     </div>
                 </div>

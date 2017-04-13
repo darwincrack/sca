@@ -29,7 +29,7 @@ class HorariosModels
 
 
 
-    static public function insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia)
+    static public function insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia,$turno)
 
     {
 
@@ -167,7 +167,7 @@ class HorariosModels
         if($lactancia==1){
 
         $lastInsertID= DB::table('Lactancia')->insertGetId(
-            ['Userid' => $id_personal, 'Schid' => $lastInsertID_Schedule, 'BeginDate' => $inicio_asignacion, 'EndDate' => $fin_asignacion]
+            ['Userid' => $id_personal, 'Schid' => $lastInsertID_Schedule, 'BeginDate' => $inicio_asignacion, 'EndDate' => $fin_asignacion, 'periodo'=>$turno]
         );
 
         }
@@ -176,7 +176,7 @@ class HorariosModels
 
 
 
-    static public function editar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia)
+    static public function editar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia,$turno)
 
     {
 
@@ -213,7 +213,7 @@ class HorariosModels
 
 
 
-            HorariosModels::insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia);
+            HorariosModels::insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida, $inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia,$turno);
 
 
 
@@ -228,7 +228,7 @@ public static function lactancia($personaID=False){
     if($personaID)
     {
 
-       $data =   DB::select(DB::raw("select count(*) as activo from lactancia where  CONVERT (date, GETDATE()) between BeginDate and EndDate"));
+       $data =   DB::select(DB::raw("select count(*) as activo, periodo from lactancia where  CONVERT (date, GETDATE()) between BeginDate and EndDate group by periodo"));
 
 
                 return $data;

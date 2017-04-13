@@ -2,20 +2,11 @@
 
 
 
-    @push('boton_accion')
-    <a href="{{ url('/grupo/add') }}" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus"></span>
-        Nuevo Grupo
-    </a>
-    @endpush
-
-
-
 @push('css')
 <link rel="stylesheet" href="{{ URL::asset('assets/css/plugins/dataTables/dataTables.min.css') }}">
 @endpush
 
-@section('title', 'Grupos')
+@section('title', 'logs del Sistema')
 
 @section('content')
 
@@ -37,10 +28,10 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Nombre </th>
-                <th>Descripción</th>
-                <th>Activo</th>
-                <th>Action</th>
+                <th>Modulo </th>
+                <th>Accion</th>
+                <th>fecha</th>
+                <th>usuario</th>
             </tr>
             </thead>
         </table>
@@ -60,15 +51,16 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json"
             },
-            ajax: 'grupo/data',
+            ajax: 'logsistema/data',
             "order": [[ 0, "desc" ]],
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             columns: [
-                {data: 'id', name: 'id'},
-                {data: 'nombre', name: 'nombre'},
-                {data: 'descripcion', name: 'descripcion'},
-                {data: 'activo', name: 'activo'},
-                {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'LogSistemaid', name: 'LogSistema.LogSistemaid'},
+                {data: 'modulo', name: 'LogSistema.modulo'},
+                {data: 'accion', name: 'LogSistema.accion'},
+                {data: 'created_at', name: 'LogSistema.created_at'},
+                {data: 'name', name: 'users.name'},
+
             ],
             pageLength: 25,
             responsive: true,
@@ -76,12 +68,31 @@
             buttons: [
                 { extend: 'copy'},
                 {extend: 'csv'},
-                {extend: 'excel', title: 'Reporte de Grupos',  exportOptions: {
-                    columns: [ 0, 1, 2,3 ]
-                }},
-                {extend: 'pdf', title: 'Reporte de Grupos', exportOptions: {
-                    columns: [ 0, 1, 2, 3 ]
-                }},
+                {extend: 'excel', title: 'Reporte de Logs del sistema'},
+                {extend: 'pdfHtml5', title: 'Reporte de Logs del sistema',
+
+            @if (Session::get('prioridad')==2) 
+                    customize: function ( doc ) {
+
+                    doc.content.splice( 1, 0, {
+                        margin: [ 0, -50, 0, 12 ],
+                         width: 60,
+                        height: 60,
+                        alignment: 'left',
+                                                image: '{{Session::get('logo_base64')}}'
+
+                       
+                    } );
+                }
+            @endif
+
+
+
+
+
+            }
+
+            ,
 
                 {extend: 'print',
                     customize: function (win){
@@ -96,6 +107,26 @@
             ]
         });
     });
+
+
+
+    $(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                customize: function ( doc ) {
+                    doc.content.splice( 1, 0, {
+                        margin: [ 0, 0, 0, 12 ],
+                        alignment: 'center',
+                       
+                    } );
+                }
+            }
+        ]
+    } );
+} )
 
 </script>
 

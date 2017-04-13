@@ -27,7 +27,9 @@ Route::get('personal/add', 'PersonalController@add');
 Route::post('personal/add', 'PersonalController@store');
 Route::get('personal/editar/{id}', 'PersonalController@editar')->where('id','[0-9]+');
 Route::post('personal/editar/', 'PersonalController@store_editar');
-Route::get('personal/subgrupo/{id_grupo}', 'PersonalController@select_subgrupo');
+Route::get('personal/subgrupo/get/{id_grupo}', 'PersonalController@select_subgrupo');
+
+Route::get('personal/get/{grupo?}/{subgrupo?}', 'PersonalController@select_personal')->where(['grupo'=>'[0-9]+', 'subgrupo' => '[0-9]+']);
 
 
 
@@ -54,6 +56,11 @@ Route::post('subgrupo/add', 'SubGrupoController@store');
 Route::get('subgrupo/editar/{id}', 'SubGrupoController@editar')->where('id','[0-9]+');
 Route::post('subgrupo/editar/', 'SubGrupoController@store_editar');
 
+Route::get('subgrupo/get/{id_grupo}', 'PersonalController@select_subgrupo');
+Route::get('subgrupo/get', 'PersonalController@select_subgrupo');
+
+
+
 
 Route::get('configuracion', 'ConfiguracionController@index');
 Route::post('configuracion', 'ConfiguracionController@store_editar');
@@ -68,3 +75,31 @@ Route::post('configuracion/diasferiados/editar/', 'ConfiguracionController@store
 
 Route::get('configuracion/diasferiados/delete/{id}', 'ConfiguracionController@delete_diasferiados')->where('id','[0-9]+');
 
+
+Route::get('reportes', 'ReportesController@index');
+Route::get('reportes/data', 'ReportesController@anyData');
+Route::post('reportes/generalavanzada', 'ReportesController@generalavanzada');
+
+
+
+Route::get('tiposjustificacion', 'TiposJustificacionController@index');
+Route::get('tiposjustificacion/data', 'TiposJustificacionController@anyData');
+Route::get('tiposjustificacion/add', 'TiposJustificacionController@add');
+Route::post('tiposjustificacion/add', 'TiposJustificacionController@store');
+Route::get('tiposjustificacion/editar/{id}', 'TiposJustificacionController@editar')->where('id','[0-9]+');
+Route::post('tiposjustificacion/editar/', 'TiposJustificacionController@store_editar');
+Route::get('tiposjustificacion/delete/{id}', 'TiposJustificacionController@delete')->where('id','[0-9]+');
+
+
+
+
+Route::post('justificativos/add', 'JustificativoController@store');
+Route::get('justificativos/add/{id_usuario}/{name}/{tipo_falta}/{hora_marcaje}/{fecha}', 'JustificativoController@add')->where(['id_usuario'=>'[0-9]+', 'tipo_falta' => '[0-9]+']);
+Route::get('reportes/justificativos', 'JustificativoController@index');
+Route::get('reportes/justificativos/data', 'JustificativoController@anyData');
+Route::get('justificativos/delete/{id}', 'JustificativoController@delete')->where('id','[0-9]+');
+Route::get('justificativos/ver/{id}', 'JustificativoController@pdf')->where('id','[0-9]+');
+
+
+Route::get('logsistema', 'LogsistemaController@index');
+Route::get('logsistema/data', 'LogsistemaController@anyData');

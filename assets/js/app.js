@@ -70,11 +70,11 @@ $(document).ready(function(){
 
         }
 
-        var path="subgrupo/";
+        var path="subgrupo/get/";
 
         if(/editar/.test(window.location.pathname)){
 
-            path="../subgrupo/";
+            path="../../subgrupo/get/";
         }
 
 
@@ -104,9 +104,157 @@ $(document).ready(function(){
 
 
 
+
+
+
+
+
+/*logica reporte avanzado*/
+
+
+    $('#bagrupo').on('change', function() {
+
+        personal($("#bagrupo").val(),$("#basubgrupo").val());
+
+
+        if($("#bagrupo").val()=='')
+        {
+
+        /*    $("#basubgrupo").select2({
+                placeholder: "Todos"
+            });*/
+
+           // $("#basubgrupo").html('');
+
+             $("#basubgrupo").html('<option value="">Todos</option>');
+            $('#basubgrupo').val('').trigger('change');
+
+             $.getJSON( "subgrupo/get" )
+            .done(function( response, textStatus, jqXHR ) {
+
+                if (response.success) {
+                 //   $('#subgrupo').html("");
+                    $.each(response.data, function(key, value) {
+
+                        $('#basubgrupo').append($('<option>', {
+                            value: value['id'],
+                            text : value['nombre']
+                        }));
+
+                    });
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    alert( "Algo ha fallado: " +  textStatus );
+                }
+            });
+
+
+
+
+            return;
+
+        }
+
+
+
+
+        var path="subgrupo/get/";
+
+        if(/editar/.test(window.location.pathname)){
+
+            path="../../subgrupo/get/";
+        }
+
+
+        $.getJSON( path+$("#bagrupo").val() )
+            .done(function( response, textStatus, jqXHR ) {
+
+                if (response.success) {
+                     $("#basubgrupo").html('<option value="">Todos</option>');
+                     $('#basubgrupo').val('').trigger('change');
+
+ /*$("#basubgrupo").select2({
+                placeholder: "Todos"
+            });*/
+
+
+                    $.each(response.data, function(key, value) {
+
+                        $('#basubgrupo').append($('<option>', {
+                            value: value['id'],
+                            text : value['nombre']
+                        }));
+
+                    });
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    alert( "Algo ha fallado: " +  textStatus );
+                }
+            });
+
+
+    })
+
+
+
+
+    $('#basubgrupo').on('change', function() {
+        personal($("#bagrupo").val(),$("#basubgrupo").val());
+    })
+
 });
 
 
+
+function personal(idgrupo,idsubgrupo) {
+
+var grupo= idgrupo;
+var subgrupo= idsubgrupo;
+
+if(idgrupo==""){
+    grupo='0';
+}
+
+if(idsubgrupo==""){
+    subgrupo='0';
+}
+
+/*var grupo= "1";
+var subgrupo= "1";*/
+
+             $.getJSON( "personal/get/"+grupo+"/"+subgrupo )
+            .done(function( response, textStatus, jqXHR ) {
+
+                if (response.success) {
+                     $("#personal").html('<option value="">Todos</option>');
+                    // $("#basubgrupo").html('<option value="">Todos</option>');
+                     $('#personal').val('').trigger('change');
+
+            
+
+        
+                    $.each(response.data, function(key, value) {
+
+                        $('#personal').append($('<option>', {
+                            value: value['Userid'],
+                            text : value['Name']
+                        }));
+
+                    });
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    alert( "Algo ha fallado: " +  textStatus );
+                }
+            });
+
+
+}
 
 
 if (this.checked) {
@@ -142,3 +290,13 @@ if($('#data_1 .input-group.date').length>0){
 
 /*fin datepicker*/
 
+        $("#lactancia").click(function() {
+        if($("#lactancia").is(':checked')) {
+            $(".content_turno").css("display","block");
+
+        } else {
+            $(".content_turno").css("display","none");
+
+
+        }
+    });
