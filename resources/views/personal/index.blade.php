@@ -97,7 +97,22 @@
                 }},
                 {extend: 'pdf', title: 'Reporte de Personal',  exportOptions: {
                     columns: [ 0, 1, 2, 3, 4, 5, 6, 7,8 ]
-                }},
+                },
+
+            @if (Session::get('prioridad')==2) 
+                    customize: function ( doc ) {
+
+                    doc.content.splice( 1, 0, {
+                        margin: [ 0, -50, 0, 12 ],
+                         width: 60,
+                        height: 60,
+                        alignment: 'left',
+                                                image: '{{Session::get('logo_base64')}}'
+
+                       
+                    } );
+                }
+            @endif},
 
                 {extend: 'print',
                     customize: function (win){

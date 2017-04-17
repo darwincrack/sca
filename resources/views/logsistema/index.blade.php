@@ -29,7 +29,9 @@
             <tr>
                 <th>Id</th>
                 <th>Modulo </th>
+                  <th>ID identificación</th>
                 <th>Accion</th>
+
                 <th>fecha</th>
                 <th>usuario</th>
             </tr>
@@ -57,8 +59,9 @@
             columns: [
                 {data: 'LogSistemaid', name: 'LogSistema.LogSistemaid'},
                 {data: 'modulo', name: 'LogSistema.modulo'},
+                {data: 'id_modulos', name: 'LogSistema.id_modulos'},
                 {data: 'accion', name: 'LogSistema.accion'},
-                {data: 'created_at', name: 'LogSistema.created_at'},
+                {data: 'fecha_creado', name: 'fecha_creado'},
                 {data: 'name', name: 'users.name'},
 
             ],

@@ -18,7 +18,9 @@ class JustificativoModels
     static  public function listar()
     {
         $data = DB::table('UserLeave')
+           
             ->join('Userinfo', 'UserLeave.Userid', '=', 'Userinfo.Userid')
+
             ->leftJoin('LeaveClass', 'UserLeave.LeaveClassid', '=', 'LeaveClass.Classid');
             //->select('Lsh','Classname');
         return $data;
@@ -30,8 +32,8 @@ class JustificativoModels
     {
 
     $data_horarioInOut=JustificativoModels::horarioInOut($Userid,$fecha);
-       $fecha= date('Y-m-d', strtotime($fecha));
-
+     //  $fecha= date('Y-m-d', strtotime($fecha));
+ $fecha= date('Y-d-m', strtotime($fecha));
 //inasistencia
 if($tipo_falta=='11')
 {
@@ -70,9 +72,10 @@ elseif($tipo_falta=='7')
             $BeginTime    =   $fecha.' '.$data_horarioInOut->Outtime;
             $EndTime      =   $fecha.' '.$data_horarioInOut->Outtime;
         }
-        DB::table('UserLeave')->insert(
+       $id= DB::table('UserLeave')->insertGetId(
             ['Userid' => $Userid, 'BeginTime'=>"$BeginTime",'EndTime'=>"$EndTime",'LeaveClassid'=>$tipojustificativo,'Whys'=>$motivo, 'tipo_falta'=>$tipo_falta]
         );
+        return $id;
 
     }
 

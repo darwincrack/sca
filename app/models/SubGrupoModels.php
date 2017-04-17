@@ -26,9 +26,11 @@ class SubGrupoModels
 
     static public function insertar($nombre,$descripcion,$id_grupo)
     {
-        DB::table('sub_grupo_personal')->insert(
+        $id=DB::table('sub_grupo_personal')->$id_sub_grupo(
             ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => '1','id_grupo_personal'=>$id_grupo, 'created_at' => DB::raw("getdate()"), 'creado_por'=>Auth::user()->id]
         );
+        
+        return $id;
 
     }
 

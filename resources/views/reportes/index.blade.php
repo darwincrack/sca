@@ -273,9 +273,24 @@ $('input[name="daterange"]').daterangepicker(
                 {extend: 'excel', title: 'Reporte horario | Usuario: Todos | fecha desde: '+fecha_actual()+', Fecha hasta: '+fecha_actual(),       exportOptions: {
                     columns: [ 0, 1, 2,, 3, 4, 5, 6, 7 ]
                 }},
-                {extend: 'pdf', title: 'Reporte horario | Usuario: Todos | fecha desde: '+fecha_actual()+', Fecha hasta: '+fecha_actual(),       exportOptions: {
+                {extend: 'pdf', title: 'Reporte horario \n  Usuario: Todos \n fecha desde: '+fecha_actual()+', Fecha hasta: '+fecha_actual(),       exportOptions: {
                     columns: [ 0, 1, 2,, 3, 4, 5, 6, 7 ]
-                }},
+                },
+
+            @if (Session::get('prioridad')==2) 
+                    customize: function ( doc ) {
+
+                    doc.content.splice( 1, 0, {
+                        margin: [ 0, -50, 0, 12 ],
+                         width: 60,
+                        height: 60,
+                        alignment: 'left',
+                                                image: '{{Session::get('logo_base64')}}'
+
+                       
+                    } );
+                }
+            @endif},
 
                 {extend: 'print',
                     customize: function (win){
@@ -382,9 +397,24 @@ else
                 {extend: 'excel', title: 'Reporte horario | Usuario: '+$("#personal option:selected").text()+' | fecha desde: '+show_fecha_inicio+', Fecha hasta: '+show_fecha_final,       exportOptions: {
                     columns: [ 0, 1, 2,, 3, 4, 5, 6, 7 ]
                 }},
-                {extend: 'pdf', title: 'Reporte horario | Usuario: '+$("#personal option:selected").text()+' | fecha desde: '+show_fecha_inicio+', Fecha hasta: '+show_fecha_final,       exportOptions: {
+                {extend: 'pdf', title: 'Reporte horario \n Usuario: '+$("#personal option:selected").text()+' \n fecha desde: '+show_fecha_inicio+', Fecha hasta: '+show_fecha_final,       exportOptions: {
                     columns: [ 0, 1, 2,, 3, 4, 5, 6, 7 ]
-                }},
+                },
+
+            @if (Session::get('prioridad')==2) 
+                    customize: function ( doc ) {
+
+                    doc.content.splice( 1, 0, {
+                        margin: [ 0, -50, 0, 12 ],
+                         width: 60,
+                        height: 60,
+                        alignment: 'left',
+                                                image: '{{Session::get('logo_base64')}}'
+
+                       
+                    } );
+                }
+            @endif},
 
                     {extend: 'print',
                         customize: function (win){

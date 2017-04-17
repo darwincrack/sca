@@ -78,8 +78,8 @@ class GrupoController extends Controller
         $descripcion        =   $request->input("descripcion");
 
 
-        GrupoModels::insertar($nombre,$descripcion);
-        LogsistemaModels::insertar('GRUPO','INSERT');
+        $id_grupo=GrupoModels::insertar($nombre,$descripcion);
+        LogsistemaModels::insertar('GRUPO','INSERT',$id_grupo);
 
         $request->session()->flash('alert-success', 'Grupo agregado con exito!!');
 
@@ -115,7 +115,7 @@ class GrupoController extends Controller
 
 
             GrupoModels::editar($id_grupo,$nombre,$descripcion,$activo);
-            LogsistemaModels::insertar('GRUPO','EDIT');
+            LogsistemaModels::insertar('GRUPO','EDIT',$id_grupo);
             $request->session()->flash('alert-success', 'Grupo editado con exito!!');
 
             return redirect('grupo');

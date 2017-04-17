@@ -37,6 +37,7 @@
 
             <thead>
             <tr>
+              <th>ID</th>
                 <th>Nombre</th>
                 <th>Fecha de Inicio </th>
                 <th>Fecha Final</th>
@@ -73,6 +74,7 @@
             "order": [[ 0, "desc" ]],
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             columns: [
+                {data: 'Lsh', name: 'UserLeave.Lsh'},
                 {data: 'Name', name: 'Userinfo.Name'},
                 {data: 'BeginTime', name: 'UserLeave.BeginTime'},
                 {data: 'EndTime', name: 'UserLeave.EndTime'},
@@ -97,7 +99,22 @@
                 }},
                 {extend: 'pdf', title: 'Reporte de Justificativos',  exportOptions: {
                     columns: [ 0, 1, 2, 3, 4, 5]
-                }},
+                },
+
+            @if (Session::get('prioridad')==2) 
+                    customize: function ( doc ) {
+
+                    doc.content.splice( 1, 0, {
+                        margin: [ 0, -50, 0, 12 ],
+                         width: 60,
+                        height: 60,
+                        alignment: 'left',
+                                                image: '{{Session::get('logo_base64')}}'
+
+                       
+                    } );
+                }
+            @endif},
 
                 {extend: 'print',
                     customize: function (win){

@@ -178,8 +178,8 @@ class PersonalController extends Controller
 
 
 
-        PersonalModels::insertar($usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero,$cedula);
-        LogsistemaModels::insertar('PERSONAL','INSERT');
+       $id= PersonalModels::insertar($usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero,$cedula);
+        LogsistemaModels::insertar('PERSONAL','INSERT',$id);
 
         $request->session()->flash('alert-success', 'Personal agregado con exito!!');
 
@@ -222,7 +222,7 @@ class PersonalController extends Controller
 
 
         PersonalModels::editar($id_personal,$usuario_nro,$nombre,$departamento,$grupo,$subgrupo,$idgenero,$cedula);
-        LogsistemaModels::insertar('PERSONAL','EDIT');
+        LogsistemaModels::insertar('PERSONAL','EDIT',$id_personal);
         $request->session()->flash('alert-success', 'Personal editado con exito!!');
 
         return redirect('personal');

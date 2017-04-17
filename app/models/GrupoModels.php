@@ -12,6 +12,7 @@ use DB;
 use Auth;
 
 
+
 class GrupoModels
 {
 
@@ -26,10 +27,11 @@ class GrupoModels
 
     static public function insertar($nombre,$descripcion)
     {
-        DB::table('grupo_personal')->insert(
+        $id=DB::table('grupo_personal')->insertGetId(
             ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => '1', 'created_at' => DB::raw("getdate()"), 'creado_por'=>Auth::user()->id]
         );
 
+        return $id;
     }
 
 

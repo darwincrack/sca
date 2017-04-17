@@ -24,11 +24,11 @@ class LogsistemaModels
     }
 
 
-    static public function insertar($modulo,$accion)
+    static public function insertar($modulo,$accion,$id_modulos)
 
     {
         DB::table('LogSistema')->insert(
-            ['modulo' => $modulo, 'accion' => $accion,  'created_at' => DB::raw("getdate()"), 'Userid'=>Auth::user()->id]
+            ['modulo' => $modulo, 'accion' => $accion,  'fecha_creado' => DB::raw("getdate()"), 'Userid'=>Auth::user()->id,'id_modulos'=>$id_modulos]
         );
 
     }

@@ -138,8 +138,8 @@ class JustificativoController extends Controller
        
 
 
-        JustificativoModels::insertar($Userid,$fecha,$hora,$tipo_falta,$tipojustificativo,$motivo);
-        LogsistemaModels::insertar('JUSTIFICATIVO','INSERT');
+       $id= JustificativoModels::insertar($Userid,$fecha,$hora,$tipo_falta,$tipojustificativo,$motivo);
+        LogsistemaModels::insertar('JUSTIFICATIVO','INSERT',$id);
         $request->session()->flash('alert-success', 'Justificativo agregado con exito!!');
 
         return redirect('reportes');
@@ -151,7 +151,7 @@ class JustificativoController extends Controller
     {
 
         JustificativoModels::delete($id_justificativo);
-        LogsistemaModels::insertar('JUSTIFICATIVO','ELIMINAR');
+        LogsistemaModels::insertar('JUSTIFICATIVO','ELIMINAR',$id_justificativo);
 
         $request->session()->flash('alert-success', 'Justificativo eliminado con exito!!');
 

@@ -82,8 +82,8 @@ class TiposJustificacionController extends Controller
        
 
 
-        TiposJustificacionModels::insertar($nombre);
-        LogsistemaModels::insertar('TIPOS JUSTIFICACION','INSERT');
+        $id=TiposJustificacionModels::insertar($nombre);
+        LogsistemaModels::insertar('TIPOS JUSTIFICACION','INSERT',$id);
 
         $request->session()->flash('alert-success', 'Justificacion agregado con exito!!');
 
@@ -118,7 +118,7 @@ class TiposJustificacionController extends Controller
 
 
             TiposJustificacionModels::editar($id_justificacion,$nombre);
-        LogsistemaModels::insertar('TIPOS JUSTIFICACION','EDIT');
+        LogsistemaModels::insertar('TIPOS JUSTIFICACION','EDIT',$id_justificacion);
 
             $request->session()->flash('alert-success', 'Tipo de Justificacion editado con exito!!');
 

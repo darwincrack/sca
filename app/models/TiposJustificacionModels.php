@@ -26,9 +26,10 @@ class TiposJustificacionModels
 
     static public function insertar($nombre)
     {
-        DB::table('LeaveClass')->insert(
+       $id= DB::table('LeaveClass')->insertGetId(
             ['Classname' => $nombre, 'MinUnit'=>null]
         );
+       return $id;
 
     }
 

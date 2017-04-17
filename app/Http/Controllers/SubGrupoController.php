@@ -79,8 +79,8 @@ class SubGrupoController extends Controller
         $grupo              =   $request->input("grupo");
 
 
-        SubGrupoModels::insertar($nombre,$descripcion,$grupo);
-        LogsistemaModels::insertar('SUBGRUPO','INSERT');
+        $id=SubGrupoModels::insertar($nombre,$descripcion,$grupo);
+        LogsistemaModels::insertar('SUBGRUPO','INSERT', $id);
 
         $request->session()->flash('alert-success', 'Sub Grupo agregado con exito!!');
 
@@ -117,7 +117,7 @@ class SubGrupoController extends Controller
 
 
             SubGrupoModels::editar($id_sub_grupo,$nombre,$descripcion,$activo,$grupo);
-        LogsistemaModels::insertar('SUBGRUPO','EDIT');
+        LogsistemaModels::insertar('SUBGRUPO','EDIT',$id_sub_grupo);
 
             $request->session()->flash('alert-success', 'Sub Grupo editado con exito!!');
 

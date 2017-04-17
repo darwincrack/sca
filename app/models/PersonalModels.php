@@ -51,6 +51,7 @@ class PersonalModels
         $lastInsertID= DB::table('Userinfo')->insertGetId(
             ['Userid' => $userid, 'UserCode' => $usuario_nro, 'Name' => $nombre, 'Deptid' => $departamento, 'idGrupo' => $grupo, 'idSubGrupo' => $subgrupo,'idGenero'=>$idgenero,'cedula'=>$cedula]
         );
+        return  $lastInsertID;
 
     }
 

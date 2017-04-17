@@ -100,7 +100,7 @@ class HorarioController extends Controller
 
         HorariosModels::insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida,$inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia);
 
-        LogsistemaModels::insertar('HORARIO','INSERT');
+        LogsistemaModels::insertar('HORARIO','INSERT','USER: '.$id_personal);
         $request->session()->flash('alert-success', 'Carga horaria almacenada con exito!!');
 
         return redirect('horario/'.$id_personal);
@@ -162,7 +162,7 @@ class HorarioController extends Controller
 
 
         HorariosModels::editar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida,$inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia,$turno);
-        LogsistemaModels::insertar('HORARIO','EDIT');
+        LogsistemaModels::insertar('HORARIO','EDIT','USER: '.$id_personal);
 
         $request->session()->flash('alert-success', 'Carga horaria almacenada con exito!!');
 
