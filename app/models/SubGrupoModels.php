@@ -18,7 +18,9 @@ class SubGrupoModels
     static  public function listar()
     {
         $data = DB::table('sub_grupo_personal')
-            ->select('id','nombre', 'descripcion', 'activo');
+               ->join('grupo_personal', 'sub_grupo_personal.id_grupo_personal', '=', 'grupo_personal.id')
+
+            ->select('sub_grupo_personal.id','grupo_personal.nombre as grupo_nombre','sub_grupo_personal.nombre', 'sub_grupo_personal.descripcion', 'sub_grupo_personal.activo');
         return $data;
 
     }
@@ -26,7 +28,7 @@ class SubGrupoModels
 
     static public function insertar($nombre,$descripcion,$id_grupo)
     {
-        $id=DB::table('sub_grupo_personal')->$id_sub_grupo(
+        $id=DB::table('sub_grupo_personal')->insertGetId(
             ['nombre' => $nombre, 'descripcion' => $descripcion,  'activo' => '1','id_grupo_personal'=>$id_grupo, 'created_at' => DB::raw("getdate()"), 'creado_por'=>Auth::user()->id]
         );
         

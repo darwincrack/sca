@@ -85,7 +85,7 @@ class ReportesController extends Controller
                 }
                 else{
 
-                    if($personal->justificativo=='')
+                    if($personal->justificativos=='')
                     {
                         return '<i class="fa fa-lock" aria-hidden="true"></i>';
                     }
@@ -109,7 +109,7 @@ class ReportesController extends Controller
 
             ->editColumn('tipo_falta', function ($personal) {
               //  return $personal->tipo_falta.'xxx';
-
+                $cssjustificativo=($personal->justificativos=='')? '' : '-justificativo';
 
                 switch ($personal->tipo_falta)
                 {
@@ -118,34 +118,39 @@ class ReportesController extends Controller
                         break;
 
                     case 2:
-                        return "<span class='falta falta-danger' >TARDIA</span>";
+                        return "<span class='falta falta-danger$cssjustificativo'>TARDIA</span>";
                         break;
                     case 3:
-                        return "<span class='falta  falta-danger' >FALTA MARCA ENTRADA</span>";
+                        return "<span class='falta  falta-danger$cssjustificativo' >FALTA MARCA ENTRADA</span>";
                         break;
                     case 4:
-                        return "<span class='falta falta-primary' >SALIDA ALMUERZO</span>";
+                        return "<span class='falta falta-primary-almuerzo' >SALIDA ALMUERZO</span>";
                         break;
                     case 5:
-                        return "<span class='falta falta-danger' >ENTRADA TARDE DEL ALMUERZO</span>";
+                        return "<span class='falta falta-danger$cssjustificativo' >ENTRADA TARDE DEL ALMUERZO</span>";
                         break;
                     case 6:
                         return "<span class='falta falta-primary' >SALIDA A TIEMPO</span>";
                         break;
                     case 7:
-                        return "<span class='falta falta-danger' >SALIDA PREVIA</span>";
+                        return "<span class='falta falta-danger$cssjustificativo' >SALIDA PREVIA</span>";
                         break;
                     case 8:
-                        return "<span class='falta  falta-danger' >FALTA MARCA SALIDA</span>";
+                        return "<span class='falta  falta-danger$cssjustificativo' >FALTA MARCA SALIDA</span>";
                     case 9:
 
 
                         return "<span class='falta'data-toggle='popover' data-placement='auto top' data-content='MARCAJE FUERA DE TODOS LOS RANGOS o no posee horario cargado para esta fecha' data-original-title='' title=''>hora fuera de todos los rangos</span>";
                     case 10:
-                        return "<span class='falta falta-primary' >ENTRADA ALMUERZO</span>";
+                        return "<span class='falta falta-primary-almuerzo' >ENTRADA ALMUERZO</span>";
 
                         case 11:
-                        return "<span class='falta falta-danger' >AUSENCIA</span>";
+                        return "<span class='falta falta-danger$cssjustificativo' >AUSENCIA</span>";
+
+
+
+
+
 
                     default:
                         return "???";
@@ -179,6 +184,8 @@ $horas = floor($personal->tiempo_penalizado / 3600);
 
 
 })
+
+
 
             ->make(true);
 
@@ -246,13 +253,13 @@ $horas = floor($personal->tiempo_penalizado / 3600);
                 }
                 else{
 
-                    if($personal->justificativo=='')
+                    if($personal->justificativos=='')
                     {
                         return '<i class="fa fa-lock" aria-hidden="true"></i>';
                     }
                     else
                     {
-                        return '<a href="justificativos/ver/'.$personal->justificativo.'" class="btn btn-xs label-warning-light" title="Ver Justificativo" target="_blank"><i class="fa fa-file-pdf-o"></i> ver</a>';
+                        return '<a href="justificativos/ver/'.$personal->justificativos.'" class="btn btn-xs label-warning-light" title="Ver Justificativo" target="_blank"><i class="fa fa-file-pdf-o"></i> ver</a>';
                     }
 
 
@@ -269,8 +276,7 @@ $horas = floor($personal->tiempo_penalizado / 3600);
 
             ->editColumn('tipo_falta', function ($personal) {
               //  return $personal->tipo_falta.'xxx';
-
-
+                $cssjustificativo=($personal->justificativos=='')? '' : '-justificativo';
 
                 switch ($personal->tipo_falta)
                 {
@@ -279,34 +285,39 @@ $horas = floor($personal->tiempo_penalizado / 3600);
                         break;
 
                     case 2:
-                        return "<span class='falta falta-danger' >TARDIA</span>";
+                        return "<span class='falta falta-danger$cssjustificativo'>TARDIA</span>";
                         break;
                     case 3:
-                        return "<span class='falta  falta-danger' >FALTA MARCA ENTRADA</span>";
+                        return "<span class='falta  falta-danger$cssjustificativo' >FALTA MARCA ENTRADA</span>";
                         break;
                     case 4:
-                        return "<span class='falta falta-primary' >SALIDA ALMUERZO</span>";
+                        return "<span class='falta falta-primary-almuerzo' >SALIDA ALMUERZO</span>";
                         break;
                     case 5:
-                        return "<span class='falta falta-danger' >ENTRADA TARDE DEL ALMUERZO</span>";
+                        return "<span class='falta falta-danger$cssjustificativo' >ENTRADA TARDE DEL ALMUERZO</span>";
                         break;
                     case 6:
                         return "<span class='falta falta-primary' >SALIDA A TIEMPO</span>";
                         break;
                     case 7:
-                        return "<span class='falta falta-danger' >SALIDA PREVIA</span>";
+                        return "<span class='falta falta-danger$cssjustificativo' >SALIDA PREVIA</span>";
                         break;
                     case 8:
-                        return "<span class='falta  falta-danger' >FALTA MARCA SALIDA</span>";
+                        return "<span class='falta  falta-danger$cssjustificativo' >FALTA MARCA SALIDA</span>";
                     case 9:
 
 
                         return "<span class='falta'data-toggle='popover' data-placement='auto top' data-content='MARCAJE FUERA DE TODOS LOS RANGOS o no posee horario cargado para esta fecha' data-original-title='' title=''>hora fuera de todos los rangos</span>";
                     case 10:
-                        return "<span class='falta falta-primary' >ENTRADA ALMUERZO</span>";
+                        return "<span class='falta falta-primary-almuerzo' >ENTRADA ALMUERZO</span>";
 
-                    case 11:
-                        return "<span class='falta falta-danger' >AUSENCIA</span>";
+                        case 11:
+                        return "<span class='falta falta-danger$cssjustificativo' >AUSENCIA</span>";
+
+
+
+
+
 
                     default:
                         return "???";

@@ -17,6 +17,7 @@
 <table class="table table-striped">
   <tr>
      <th>nombre</th>
+    <th>Nombre de usuario</th>
      <th>Email</th>
      <th>Rol</th>
      <th>Actions</th>
@@ -26,17 +27,20 @@
 
     <tr>
         <td>{{ $user->name }}</td>
+        <td>{{ $user->username }}</td>
       <td>{{ $user->email }}</td>
 
         <td>
-          <?php if(strtoupper($user->rol->name)=='ADMIN'){
+
+       
+          <?php if(strtoupper($user->rol["name"])=='ADMIN'){
                 $color_label='primary';
             }
-            elseif(strtoupper($user->rol->name)=='OPERADOR')
+            elseif(strtoupper($user->rol["name"])=='OPERADOR')
             {
                 $color_label='success';
             }
-            elseif(strtoupper($user->rol->name)=='USUARIO')
+            elseif(strtoupper($user->rol["name"])=='USUARIO')
             {
                 $color_label='warning';
             }
@@ -44,7 +48,9 @@
             {
                 $color_label='';
             }
-           echo  "<label class='label label-".$color_label."'>".$user->rol->name."</label>"; ?>
+           echo  "<label class='label label-".$color_label."'>".$user->rol["name"]."</label>"; ?>
+        
+        
         </td>
       <td class="col-xs-3">
         <form action="{{ route('entrust-gui::users.destroy', $user->id) }}" method="post">

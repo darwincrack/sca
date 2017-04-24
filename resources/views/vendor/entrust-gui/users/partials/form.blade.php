@@ -3,6 +3,17 @@
     <label for="name">Nombre</label>
     <input type="name" class="form-control" id="name" placeholder="Name" name="name" value="{{ (Session::has('errors')) ? old('name', '') : $user->name }}">
 </div>
+
+
+
+<div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" class="form-control" id="username" placeholder="Username" name="username" value="{{ (Session::has('errors')) ? old('username', '') : $user->username }}">
+</div>
+
+
+
+
 <div class="form-group {{ $errors->has('email') ? 'has-error' : ''}}">
     <label for="email">Email</label>
     <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="{{ (Session::has('errors')) ? old('email', '') : $user->email }}">

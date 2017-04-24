@@ -82,6 +82,16 @@ class HorarioController extends Controller
         $id_personal                 =   trim($request->input("id_personal"));
         $lactancia                   =   $request->input("lactancia");
 
+
+        if($lactancia =='1')
+        {
+             $turno   =   $request->input("turno");
+        }
+        else
+        {
+            $turno   =   NULL;
+        }
+
         $inicio_asignacion           =   date('Y-m-d', strtotime($request->input("inicio_asignacion")));
         $fin_asignacion              =   date('Y-m-d', strtotime($request->input("fin_asignacion")));
 
@@ -98,7 +108,7 @@ class HorarioController extends Controller
 
 
 
-        HorariosModels::insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida,$inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia);
+        HorariosModels::insertar($id_personal,$domingo_entrada,$domingo_salida,$lunes_entrada, $lunes_salida, $martes_entrada,$martes_salida,$miercoles_entrada,$miercoles_salida, $jueves_entrada,$jueves_salida,$viernes_entrada, $viernes_salida, $sabado_entrada, $sabado_salida,$inicio_asignacion,$fin_asignacion,$lactancia,$tiempo_gracia,$turno);
 
         LogsistemaModels::insertar('HORARIO','INSERT','USER: '.$id_personal);
         $request->session()->flash('alert-success', 'Carga horaria almacenada con exito!!');

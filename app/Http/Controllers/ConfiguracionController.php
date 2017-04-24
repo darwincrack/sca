@@ -10,6 +10,8 @@ use Input;
 use Illuminate\Support\Facades\Response;
 use Entrust;
 
+use Illuminate\Support\Collection as Collection;
+
 
 class ConfiguracionController extends Controller
 {
@@ -42,6 +44,7 @@ class ConfiguracionController extends Controller
             'tiempo_gracia' => 'required|numeric',
             'nombre_sistema' => 'required|max:50',
             'nombre_corto_sistema' => 'required|max:5',
+ 
         ]);
 
 
@@ -53,6 +56,7 @@ class ConfiguracionController extends Controller
         $logo_old                   =   $request->input("logo_old");
         $quitar_logo                =   $request->input("quitar_logo");
         $base64_img                 =   $request->input("base64_img");
+
 
         if($request->hasFile('logo')){
             $nombre_logo=$file->getClientOriginalName();
@@ -140,10 +144,12 @@ class ConfiguracionController extends Controller
 
                 if(Entrust::hasRole(['admin', 'operador']))
                 {
-                    return '<a href="diasferiados/delete/'.$feriado->Holidayid.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
+                    return '<a class="btn btn-xs btn-danger delete" data-eliminar="'.$feriado->Holidayid.'"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
+               
+
                 }
                 else{
-                    return '-';
+                    return '<i class="fa fa-lock" aria-hidden="true"></i>';
                 }
 
 
@@ -245,6 +251,7 @@ class ConfiguracionController extends Controller
                 'nombre' => 'required|max:30',
                 'dia_feriado' => 'required|date_format:"d-m-Y"',
                 'dias' => 'required|numeric',
+ 
             ]
         );
 
@@ -255,6 +262,9 @@ class ConfiguracionController extends Controller
         $dias          =   $request->input("dias");
 
 
+
+
+
         if($dia_feriado !='')
         {
             $dia_feriado     =   date('Y-m-d', strtotime($dia_feriado));
@@ -263,6 +273,9 @@ class ConfiguracionController extends Controller
         {
             $dia_feriado     =   NULL;
         }
+
+
+
 
 
         ConfiguracionModels::editar_diaferiado($id_feriado,$nombre,$dia_feriado,$dias);
@@ -299,5 +312,15 @@ class ConfiguracionController extends Controller
         $request->session()->put('logo_base64',trim($data_configuracion->base64_img));
 
     }
+
+
+    static public function install()
+    {
+
+
+    }
+
+
+
 
 }

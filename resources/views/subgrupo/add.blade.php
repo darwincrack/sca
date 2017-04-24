@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @push('boton_accion')
-<a href="{{ url('/grupo/add') }}" class="btn btn-primary">
+<a href="{{ url('/subgrupo/add') }}" class="btn btn-primary">
     <span class="glyphicon glyphicon-plus"></span>
         Nuevo Sub Grupo
 </a>

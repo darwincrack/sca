@@ -32,6 +32,12 @@ class JustificativoModels
     {
 
     $data_horarioInOut=JustificativoModels::horarioInOut($Userid,$fecha);
+
+if(count($data_horarioInOut)==0)
+{
+    return 0;
+}
+
      //  $fecha= date('Y-m-d', strtotime($fecha));
  $fecha= date('Y-d-m', strtotime($fecha));
 //inasistencia
@@ -72,6 +78,9 @@ elseif($tipo_falta=='7')
             $BeginTime    =   $fecha.' '.$data_horarioInOut->Outtime;
             $EndTime      =   $fecha.' '.$data_horarioInOut->Outtime;
         }
+
+
+
        $id= DB::table('UserLeave')->insertGetId(
             ['Userid' => $Userid, 'BeginTime'=>"$BeginTime",'EndTime'=>"$EndTime",'LeaveClassid'=>$tipojustificativo,'Whys'=>$motivo, 'tipo_falta'=>$tipo_falta]
         );
@@ -129,9 +138,9 @@ static public function horarioInOut($Userid, $fecha_marcaje)
        $data = DB::table('userLeave')
        ->where('Lsh', $id_justificativo)
        ->join('Userinfo', 'UserLeave.Userid', '=', 'Userinfo.Userid')
-       ->leftJoin('grupo_personal', 'Userinfo.idGrupo', '=', 'grupo_personal.id')
+       ->leftJoin('sub_grupo_personal', 'Userinfo.idSubGrupo', '=', 'sub_grupo_personal.id')
        ->leftJoin('LeaveClass', 'UserLeave.LeaveClassid', '=', 'LeaveClass.Classid') 
-       ->select('grupo_personal.nombre as departamento','Userinfo.Name','Userinfo.cedula',DB::raw("FORMAT (UserLeave.BeginTime, 'dd-MM-yyyy') as fecha"),DB::raw("FORMAT(cast(UserLeave.BeginTime as time), N'hh\:mm') as hora_entrada"),DB::raw("FORMAT(cast(UserLeave.EndTime as time), N'hh\:mm') as hora_salida"),'UserLeave.tipo_falta','Whys as motivo_omision','LeaveClass.Classname as tipo_justificativo')
+       ->select('sub_grupo_personal.nombre as departamento','Userinfo.Name','Userinfo.cedula',DB::raw("FORMAT (UserLeave.BeginTime, 'dd-MM-yyyy') as fecha"),DB::raw("FORMAT(cast(UserLeave.BeginTime as time), N'hh\:mm') as hora_entrada"),DB::raw("FORMAT(cast(UserLeave.EndTime as time), N'hh\:mm') as hora_salida"),'UserLeave.tipo_falta','Whys as motivo_omision','LeaveClass.Classname as tipo_justificativo')
          ->first();
          return $data;
     }

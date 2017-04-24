@@ -100,6 +100,30 @@
         });
     });
 
+
+
+$(document).ready(function() {
+
+var table = $('#users-table').DataTable();
+ 
+    $('#users-table tbody').on( 'click', '.delete', function (event) {
+
+        if(confirm("¿Esta seguro que deseas eliminar esto?"))
+        {
+            event.preventDefault();
+            var row = $(this).closest("tr").get(0);
+            var id=$(row).find( ".delete" ).data("eliminar");
+
+            $.get("tiposjustificacion/delete/"+id, function(data, status){
+                alert("Eliminado con exito!!");
+                location.reload();
+            });
+        }
+
+    });
+ 
+});
+
 </script>
 
 @endpush

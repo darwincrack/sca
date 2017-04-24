@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="{{ URL::asset('assets/css/plugins/datapicker/datepicker3.css') }}">
 @endpush
 
-@section('title', 'Agregar Personal')
+@section('title', 'Editar Personal')
 
 @section('content')
 

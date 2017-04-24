@@ -34,6 +34,10 @@ class HorariosModels
     {
 
 
+             DB::table('Schedule')
+                ->where('Schname', $id_personal.'_ciclo')
+                ->delete();  
+
         $lastInsertID_Schedule= DB::table('Schedule')->insertGetId(
             ['Schname' => $id_personal.'_ciclo', 'Cycles' => '1', 'Units' => '1']
         );
@@ -199,6 +203,11 @@ class HorariosModels
             DB::table('Schedule')
                 ->where('Schid', $schedule_id)
                 ->delete();
+
+
+              DB::table('Schedule')
+                ->where('Schname', $id_personal.'_ciclo')
+                ->delete();     
 
             DB::update("delete from TimeTable where  Timeid in ((select Timeid from SchTime where Schid='$schedule_id'))");
 

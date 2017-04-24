@@ -32,12 +32,21 @@ datepart(DW,CheckTime) as dia_semana,
 (select top 1 '1'  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and  CAST(Checkinout.CheckTime as time) between TimeTable.BIntime and TimeTable.EIntime and  BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as rango_entrada,
 (select top 1 '1'  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and  CAST(Checkinout.CheckTime as time) between TimeTable.BOuttime and TimeTable.EOuttime and  BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as rango_salida,
 
+--hora entrada
+
+(select top 1 TimeTable.Intime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as hora_entrada,
+
+
 -- minimo de entrada
 (select top 1 TimeTable.BIntime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as minimo_entrada,
 
 
 --maximo de entrada
 (select top 1 TimeTable.EIntime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as maximo_entrada,
+
+-- hora de salida
+(select top 1 TimeTable.Outtime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as hora_salida,
+
 
 
 -- minimo de salida
@@ -106,7 +115,7 @@ select * from origen where origen.feriado=0
 -- cuando no marco entradas
 manager_cte3 as 
 (
- select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid,
+ select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid,hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',
 (SELECT top 1 '1' FROM 
 Checkinout v
  where  v.Userid=manager_cte.Userid and 
@@ -116,7 +125,7 @@ Checkinout v
 
 from manager_cte
 
-group by Userid,cast(CheckTime as date),minimo_entrada,maximo_entrada 
+group by Userid,cast(CheckTime as date),minimo_entrada,maximo_entrada, hora_entrada,hora_salida
 
 
 )
@@ -131,7 +140,7 @@ select * from manager_cte3 where marco_entrada is null
 manager_cte5 as
 (
 
- select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid,
+ select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid, hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',
 (SELECT top 1 '1' FROM 
 Checkinout v
  where  v.Userid=manager_cte.Userid and 
@@ -141,7 +150,7 @@ Checkinout v
 
 from manager_cte
 
-group by Userid,cast(CheckTime as date),minimo_salida,maximo_salida 
+group by Userid,cast(CheckTime as date),minimo_salida,maximo_salida,hora_entrada,hora_salida
 
 )
 
@@ -202,56 +211,50 @@ WHERE NOT EXISTS
 ,
 
 
-
-
-
-
-
-
 --query que unifica todo
  manager_cte2 AS
 (
 
  -- entrada a tiempo
-  SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'1' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'FALSE'
+  SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida', CheckTime,Logid as 'log',fecha as 'fecha',Userid,'1' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'FALSE'
 
    UNION all
 
 --entrada tarde
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'2' as 'tipo_falta', DATEDIFF( second , cast(hora_entrada_con_lactancia as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'TRUE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'2' as 'tipo_falta', DATEDIFF( second , cast(hora_entrada_con_lactancia as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'TRUE'
  
   UNION all
  -- no marco entrada
- select null,null as 'log',fecha as 'fecha',Userid,'3' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte4
+ select hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',null,null as 'log',fecha as 'fecha',Userid,'3' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte4
 
 
  UNION ALL
 
   -- salida al almuerzo
-  SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'4' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida_almuerzo = '1'
+  SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'4' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida_almuerzo = '1'
 
      UNION all
 
 --entrada a tiempo del almuerzo
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'10' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'FALSE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'10' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'FALSE'
 
    UNION all
 
 --entrada tarde del almuerzo
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'5' as 'tipo_falta', DATEDIFF( second , cast('12:20:00' as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'TRUE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'5' as 'tipo_falta', DATEDIFF( second , cast('12:20:00' as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'TRUE'
 
 
 
   UNION all
  -- salida a tiempo
 
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'6' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'FALSE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'6' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'FALSE'
 
 
 
  UNION all
  -- salida temprano 
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'7' as 'tipo_falta', DATEDIFF( second , cast(CheckTime as time)  , cast(hora_salida_con_lactancia as time) )  as 'tiempo_penalizado'  FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'TRUE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'7' as 'tipo_falta', DATEDIFF( second , cast(CheckTime as time)  , cast(hora_salida_con_lactancia as time) )  as 'tiempo_penalizado'  FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'TRUE'
 
  -- DATEDIFF( second , cast(CheckTime as time)  , cast(hora_salida_con_lactancia as time) )
   
@@ -259,22 +262,27 @@ WHERE NOT EXISTS
   UNION all
 
   -- no marco salida
- select NULL,null as 'log',fecha as 'fecha',Userid,'8' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte6
+ select hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',NULL,null as 'log',fecha as 'fecha',Userid,'8' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte6
 
 
  UNION all
  
  -- hora fuera de todos los rangos 
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'9' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida is null   and rango_entrada is null and rango_entrada_almuerzo is null and rango_salida_almuerzo is null
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'9' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida is null   and rango_entrada is null and rango_entrada_almuerzo is null and rango_salida_almuerzo is null
 
  UNION ALL
  -- inasistencia
- select null,null as log, CalanderDate as fecha, id_usuario as Userid, '11' as 'tipo_falta', NULL as 'tiempo_penalizado' from inasistencia where  toca_trabajar= 1
+ select (select top 1 TimeTable.Intime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=inasistencia.id_usuario and   BeginDay= (CASE datepart(DW,inasistencia.CalanderDate) WHEN 7 THEN 0 ELSE datepart(DW,inasistencia.CalanderDate) END))  as 'hora_entrada', (select top 1 TimeTable.Outtime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=inasistencia.id_usuario and   BeginDay= (CASE datepart(DW,inasistencia.CalanderDate) WHEN 7 THEN 0 ELSE datepart(DW,inasistencia.CalanderDate) END)) as 'hora_salida',null,null as log, CalanderDate as fecha, id_usuario as Userid, '11' as 'tipo_falta', NULL as 'tiempo_penalizado' from inasistencia where  toca_trabajar= 1
+
+
+
+ --hora entrada
+
 
 
 )
 
- select cast(CheckTime as time) as hora_marcaje, log,CheckTime,fecha, manager_cte2.Userid, Userinfo.Name, grupo_personal.nombre as grupo, sub_grupo_personal.nombre as subgrupo, tipo_falta,tiempo_penalizado, 
+ select hora_entrada,hora_salida,cast(CheckTime as time) as hora_marcaje, log,CheckTime,fecha, manager_cte2.Userid, Userinfo.Name, grupo_personal.nombre as grupo, sub_grupo_personal.nombre as subgrupo, tipo_falta,tiempo_penalizado, 
  (select top 1 Lsh from UserLeave where userid=manager_cte2.Userid and tipo_falta= manager_cte2.tipo_falta and cast(BeginTime as date)= manager_cte2.fecha) as justificativos
  from manager_cte2 
  inner join Userinfo
@@ -287,7 +295,7 @@ on Userinfo.idSubGrupo= sub_grupo_personal.id
 where 
 fecha = cast(GETDATE() as date)
 
-  group by fecha,tipo_falta,manager_cte2.Userid,CheckTime,log,tiempo_penalizado,cast(CheckTime as time) ,Userinfo.Name, Userinfo.idSubGrupo, Userinfo.idGrupo, grupo_personal.nombre,sub_grupo_personal.nombre
+ group by hora_entrada,hora_salida,fecha,tipo_falta,manager_cte2.Userid,CheckTime,log,tiempo_penalizado,cast(CheckTime as time) ,Userinfo.Name, Userinfo.idSubGrupo, Userinfo.idGrupo, grupo_personal.nombre,sub_grupo_personal.nombre
  order by   cast(fecha as date) desc, manager_cte2.Userid,CheckTime asc, tipo_falta asc;
 
 --entrada a tiempo =1
@@ -408,12 +416,21 @@ datepart(DW,CheckTime) as dia_semana,
 (select top 1 '1'  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and  CAST(Checkinout.CheckTime as time) between TimeTable.BIntime and TimeTable.EIntime and  BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as rango_entrada,
 (select top 1 '1'  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and  CAST(Checkinout.CheckTime as time) between TimeTable.BOuttime and TimeTable.EOuttime and  BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as rango_salida,
 
+--hora entrada
+
+(select top 1 TimeTable.Intime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as hora_entrada,
+
+
 -- minimo de entrada
 (select top 1 TimeTable.BIntime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as minimo_entrada,
 
 
 --maximo de entrada
 (select top 1 TimeTable.EIntime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as maximo_entrada,
+
+-- hora de salida
+(select top 1 TimeTable.Outtime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=Checkinout.Userid and   BeginDay= (CASE datepart(DW,Checkinout.CheckTime) WHEN 7 THEN 0 ELSE datepart(DW,Checkinout.CheckTime) END)) as hora_salida,
+
 
 
 -- minimo de salida
@@ -482,7 +499,7 @@ select * from origen where origen.feriado=0
 -- cuando no marco entradas
 manager_cte3 as 
 (
- select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid,
+ select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid,hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',
 (SELECT top 1 '1' FROM 
 Checkinout v
  where  v.Userid=manager_cte.Userid and 
@@ -492,7 +509,7 @@ Checkinout v
 
 from manager_cte
 
-group by Userid,cast(CheckTime as date),minimo_entrada,maximo_entrada 
+group by Userid,cast(CheckTime as date),minimo_entrada,maximo_entrada, hora_entrada,hora_salida
 
 
 )
@@ -507,7 +524,7 @@ select * from manager_cte3 where marco_entrada is null
 manager_cte5 as
 (
 
- select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid,
+ select '' as 'logid',cast(CheckTime as date) as 'fecha', Userid, hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',
 (SELECT top 1 '1' FROM 
 Checkinout v
  where  v.Userid=manager_cte.Userid and 
@@ -517,7 +534,7 @@ Checkinout v
 
 from manager_cte
 
-group by Userid,cast(CheckTime as date),minimo_salida,maximo_salida 
+group by Userid,cast(CheckTime as date),minimo_salida,maximo_salida,hora_entrada,hora_salida
 
 )
 
@@ -525,7 +542,11 @@ group by Userid,cast(CheckTime as date),minimo_salida,maximo_salida
 manager_cte6 as
 (
 select * from manager_cte5 where marco_salida is null
-),
+)
+
+
+,
+
 
 
 -- calcular inasistencia
@@ -534,9 +555,9 @@ select * from manager_cte5 where marco_salida is null
     select  CASE WHEN (DATEPART(WEEKDAY, @startDate) + @@DATEFIRST)%7 IN (0, 1) THEN DATEADD(day,1,@startDate) ELSE @startDate END as CalanderDate, '' as fecha
     UNION ALL
     SELECT DATEADD(day,1,CalanderDate), CASE WHEN (DATEPART(WEEKDAY, DATEADD(day,1,CalanderDate)) + @@DATEFIRST)%7 IN (0, 1) THEN '1' ELSE '0' END as fecha FROM Calender
-    WHERE DATEADD(day,1,CalanderDate) <= @endDate 
-
-),
+    WHERE DATEADD(day,1,CalanderDate) <= @endDate  
+)
+,
 
 --se quitan fines de semana y dias feriados
 sinfinesdeseamana AS (
@@ -579,44 +600,45 @@ WHERE NOT EXISTS
 (
 
  -- entrada a tiempo
-  SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'1' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'FALSE'
+  SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida', CheckTime,Logid as 'log',fecha as 'fecha',Userid,'1' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'FALSE'
 
    UNION all
 
 --entrada tarde
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'2' as 'tipo_falta', DATEDIFF( second , cast(hora_entrada_con_lactancia as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'TRUE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'2' as 'tipo_falta', DATEDIFF( second , cast(hora_entrada_con_lactancia as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada = '1' and entrada_tarde_con_lactancia = 'TRUE'
  
   UNION all
  -- no marco entrada
- select null,null as 'log',fecha as 'fecha',Userid,'3' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte4
+ select hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',null,null as 'log',fecha as 'fecha',Userid,'3' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte4
 
 
  UNION ALL
 
   -- salida al almuerzo
-  SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'4' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida_almuerzo = '1'
+  SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'4' as 'tipo_falta',  NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida_almuerzo = '1'
 
      UNION all
 
 --entrada a tiempo del almuerzo
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'10' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'FALSE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'10' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'FALSE'
 
    UNION all
 
 --entrada tarde del almuerzo
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'5' as 'tipo_falta', DATEDIFF( second , cast('12:20:00' as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'TRUE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'5' as 'tipo_falta', DATEDIFF( second , cast('12:20:00' as time)   , cast(CheckTime as time) ) as 'tiempo_penalizado' FROM manager_cte where rango_entrada_almuerzo = '1' and entrada_almuerzo_tarde = 'TRUE'
+
 
 
   UNION all
  -- salida a tiempo
 
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'6' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'FALSE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'6' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'FALSE'
 
 
 
  UNION all
  -- salida temprano 
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'7' as 'tipo_falta', DATEDIFF( second , cast(CheckTime as time)  , cast(hora_salida_con_lactancia as time) )  as 'tiempo_penalizado'  FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'TRUE'
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'7' as 'tipo_falta', DATEDIFF( second , cast(CheckTime as time)  , cast(hora_salida_con_lactancia as time) )  as 'tiempo_penalizado'  FROM manager_cte where rango_salida = '1' and salida_temprano_con_lactancia = 'TRUE'
 
  -- DATEDIFF( second , cast(CheckTime as time)  , cast(hora_salida_con_lactancia as time) )
   
@@ -624,22 +646,27 @@ WHERE NOT EXISTS
   UNION all
 
   -- no marco salida
- select NULL,null as 'log',fecha as 'fecha',Userid,'8' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte6
+ select hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',NULL,null as 'log',fecha as 'fecha',Userid,'8' as 'tipo_falta', NULL as 'tiempo_penalizado'  from manager_cte6
 
 
  UNION all
  
  -- hora fuera de todos los rangos 
- SELECT CheckTime,Logid as 'log',fecha as 'fecha',Userid,'9' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida is null   and rango_entrada is null and rango_entrada_almuerzo is null and rango_salida_almuerzo is null
+ SELECT hora_entrada as 'hora_entrada', hora_salida as 'hora_salida',CheckTime,Logid as 'log',fecha as 'fecha',Userid,'9' as 'tipo_falta', NULL as 'tiempo_penalizado' FROM manager_cte where rango_salida is null   and rango_entrada is null and rango_entrada_almuerzo is null and rango_salida_almuerzo is null
 
  UNION ALL
  -- inasistencia
- select null,null as log, CalanderDate as fecha, id_usuario as Userid, '11' as 'tipo_falta', NULL as 'tiempo_penalizado' from inasistencia where  toca_trabajar= 1
+ select (select top 1 TimeTable.Intime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=inasistencia.id_usuario and   BeginDay= (CASE datepart(DW,inasistencia.CalanderDate) WHEN 7 THEN 0 ELSE datepart(DW,inasistencia.CalanderDate) END))  as 'hora_entrada', (select top 1 TimeTable.Outtime  from UserShift inner join SchTime on userShift.Schid= SchTime.Schid inner join TimeTable on SchTime.Timeid=TimeTable.Timeid   where UserShift.Userid=inasistencia.id_usuario and   BeginDay= (CASE datepart(DW,inasistencia.CalanderDate) WHEN 7 THEN 0 ELSE datepart(DW,inasistencia.CalanderDate) END)) as 'hora_salida',null,null as log, CalanderDate as fecha, id_usuario as Userid, '11' as 'tipo_falta', NULL as 'tiempo_penalizado' from inasistencia where  toca_trabajar= 1
+
+
+
+ --hora entrada
+
 
 
 )
 
- select cast(CheckTime as time) as hora_marcaje, log,CheckTime,fecha, manager_cte2.Userid, Userinfo.Name, grupo_personal.nombre as grupo, sub_grupo_personal.nombre as subgrupo, tipo_falta,tiempo_penalizado, 
+ select hora_entrada,hora_salida,cast(CheckTime as time) as hora_marcaje, log,CheckTime,fecha, manager_cte2.Userid, Userinfo.Name, grupo_personal.nombre as grupo, sub_grupo_personal.nombre as subgrupo, tipo_falta,tiempo_penalizado, 
  (select top 1 Lsh from UserLeave where userid=manager_cte2.Userid and tipo_falta= manager_cte2.tipo_falta and cast(BeginTime as date)= manager_cte2.fecha) as justificativos
  from manager_cte2 
  inner join Userinfo
@@ -652,8 +679,8 @@ on Userinfo.idSubGrupo= sub_grupo_personal.id where";
 $sql.=ReportesModels::completarsql($grupo,$subgrupo,$personal,$actividad,$fecha_inicio,$fecha_final);
 
 
- $sql.="  group by fecha,tipo_falta,manager_cte2.Userid,CheckTime,log,tiempo_penalizado,cast(CheckTime as time) ,Userinfo.Name, Userinfo.idSubGrupo, Userinfo.idGrupo, grupo_personal.nombre,sub_grupo_personal.nombre
- order by   manager_cte2.Userid,cast(fecha as date) desc,CheckTime asc, tipo_falta asc
+ $sql.="   group by hora_entrada,hora_salida,fecha,tipo_falta,manager_cte2.Userid,CheckTime,log,tiempo_penalizado,cast(CheckTime as time) ,Userinfo.Name, Userinfo.idSubGrupo, Userinfo.idGrupo, grupo_personal.nombre,sub_grupo_personal.nombre
+ order by   cast(fecha as date) desc, manager_cte2.Userid,CheckTime asc, tipo_falta asc
  OPTION(MAXRECURSION 1000);
 
 --entrada a tiempo =1

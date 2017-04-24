@@ -31,6 +31,10 @@
 span.select2.select2-container.select2-container--default.select2-container--below{
     margin-bottom: 18px !important;
 }
+
+.falta-danger-justificativo{
+    color: white;
+}
 </style>
 
 
@@ -164,6 +168,8 @@ span.select2.select2-container.select2-container--default.select2-container--bel
             <th>Nombre</th>
 
             <th>Fecha</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
             <th>Hora</th>
             <th>tipo de Actividad</th>
             <th>tiempo penalizado, <strong>formato (H:M:S)</strong></th>
@@ -246,6 +252,9 @@ $('input[name="daterange"]').daterangepicker(
                 $("td:has(.falta-primary)").css("background", "#aafaad");
                 $("td:has(.falta-danger)").css("background", "#ff3019");
                 $("td:has(.falta-warning)").css("background", "#ff8");
+                $("td:has(.falta-primary-almuerzo)").css("background", "#aaf3fa");
+                $("td:has(.falta-danger-justificativo)").css("background", "#f8ac59");
+                
             },
             ajax: 'reportes/data',
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
@@ -253,6 +262,8 @@ $('input[name="daterange"]').daterangepicker(
                 {data: 'Userid', name: 'Userid'},
                 {data: 'Name', name: 'Name'},
                 {data: 'fecha', name: 'fecha'},
+                {data: 'hora_entrada', name: 'hora_entrada'},
+                {data: 'hora_salida', name: 'hora_salida'},
                 {data: 'hora_marcaje', name: 'hora_marcaje'},
                 {data: 'tipo_falta', name: 'tipo_falta'},
                 {data: 'tiempo_penalizado', name: 'tiempo_penalizado'},
@@ -354,6 +365,8 @@ else
                 $("td:has(.falta-primary)").css("background", "#aafaad");
                 $("td:has(.falta-danger)").css("background", "#ff3019");
                 $("td:has(.falta-warning)").css("background", "#ff8");
+                $("td:has(.falta-primary-almuerzo)").css("background", "#aaf3fa");
+                $("td:has(.falta-danger-justificativo)").css("background", "#f8ac59");
             },
                 ajax: {
                     'url': 'reportes/generalavanzada',
@@ -377,6 +390,8 @@ else
                 {data: 'Userid', name: 'Userid'},
                 {data: 'Name', name: 'Name'},
                 {data: 'fecha', name: 'fecha'},
+                {data: 'hora_entrada', name: 'hora_entrada'},
+                {data: 'hora_salida', name: 'hora_salida'},
                 {data: 'hora_marcaje', name: 'hora_marcaje'},
                 {data: 'tipo_falta', name: 'tipo_falta'},
                 {data: 'tiempo_penalizado', name: 'tiempo_penalizado'},

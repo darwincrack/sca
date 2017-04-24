@@ -47,6 +47,7 @@
             <th>PIN</th>
             <th>Horario</th>
             <th>Action</th>
+            <th>Eliminar</th>
         </tr>
         </thead>
     </table>
@@ -80,7 +81,8 @@
                 {data: 'huella2', name: 'huella2'},
                 {data: 'Pwd', name: 'Pwd'},
                 {data: 'horario', name: 'horario', orderable: false, searchable: false},
-                {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+                 {data: 'delete', name: 'delete', orderable: false, searchable: false}
             ],
             pageLength: 25,
             responsive: true,
@@ -128,6 +130,30 @@
         });
     });
 
+
+
+
+$(document).ready(function() {
+
+var table = $('#users-table').DataTable();
+ 
+    $('#users-table tbody').on( 'click', '.delete', function (event) {
+
+        if(confirm("¿Esta seguro que deseas eliminar esto?"))
+        {
+            event.preventDefault();
+            var row = $(this).closest("tr").get(0);
+            var id=$(row).find( ".delete" ).data("eliminar");
+
+            $.get("personal/delete/"+id, function(data, status){
+                alert("Eliminado con exito!!");
+                location.reload();
+            });
+        }
+
+    });
+ 
+});
 </script>
 
 @endpush

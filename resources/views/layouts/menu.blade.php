@@ -140,7 +140,7 @@
 
 
 
-            @role(['admin','operador'])
+
             <li class=" @if (Route::getCurrentRoute()->getPath() == 'configuracion')
                     active
                  @elseif (Route::getCurrentRoute()->getPath() == 'configuracion/general')
@@ -151,14 +151,16 @@
                 <a href="index.html"><i class="fa fa-bars" aria-hidden="true"></i> <span class="nav-label">configuraci&oacute;n</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li></li>
-                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'configuracion') ? 'active' : '' }}"><a href="{{ url('configuracion') }}"><a href="{{ url('/configuracion') }}">General</a></li>
 
-                    @role(['admin','operador'])
-                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'configuracion/diasferiados') ? 'active' : '' }}"><a href="{{ url('configuracion/diasferiados') }}"><a href="{{ url('/configuracion/diasferiados') }}">Dias Feriados</a></li>
+                     @role(['admin'])
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'configuracion') ? 'active' : '' }}"><a href="{{ url('configuracion') }}"><a href="{{ url('/configuracion') }}">General</a></li>
                     @endrole
+                    
+                 
+                    <li class="{{ (Route::getCurrentRoute()->getPath() == 'configuracion/diasferiados') ? 'active' : '' }}"><a href="{{ url('configuracion/diasferiados') }}"><a href="{{ url('/configuracion/diasferiados') }}">Dias Feriados</a></li>
+                 
                 </ul>
             </li>
-            @endrole
 
 
 
@@ -168,6 +170,7 @@
 
 
 
+            @role(['admin'])  
             <li class=" @if (Route::getCurrentRoute()->getPath() == 'logsistema')
                     active
                 @endif ">
@@ -180,7 +183,7 @@
             </li>
 
 
-
+            @endrole
 
 
 

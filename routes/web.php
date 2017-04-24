@@ -32,6 +32,9 @@ Route::get('personal/subgrupo/get/{id_grupo}', 'PersonalController@select_subgru
 Route::get('personal/get/{grupo?}/{subgrupo?}', 'PersonalController@select_personal')->where(['grupo'=>'[0-9]+', 'subgrupo' => '[0-9]+']);
 
 
+Route::get('personal/delete/{id}', 'PersonalController@eliminar')->where('id','[0-9]+');
+
+
 
 
 

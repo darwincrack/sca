@@ -29,8 +29,6 @@
     </div> <!-- end .flash-message -->
 
 
-
-
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped" id="users-table">
 
@@ -110,6 +108,9 @@
             ]
         });
     });
+
+
+
 
 </script>
 

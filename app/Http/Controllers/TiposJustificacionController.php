@@ -55,7 +55,7 @@ class TiposJustificacionController extends Controller
 
                 if(Entrust::hasRole(['admin', 'operador']))
                 {
-                    return '<a href="tiposjustificacion/delete/'.$justificacion->Classid.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
+                    return '<a class="btn btn-xs btn-danger delete" data-eliminar="'.$justificacion->Classid.'"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
                 }
                 else{
                     return '<i class="fa fa-lock" aria-hidden="true"></i>';
@@ -130,13 +130,13 @@ class TiposJustificacionController extends Controller
     {
 
         TiposJustificacionModels::delete($id_justificacion);
-        LogsistemaModels::insertar('TIPOS JUSTIFICACION','DELETE');
+        LogsistemaModels::insertar('TIPOS JUSTIFICACION','DELETE',$id_justificacion);
 
 
-        $request->session()->flash('alert-success', 'Tipo de Justificacion eliminado con exito!!');
+      //  $request->session()->flash('alert-success', 'Tipo de Justificacion eliminado con exito!!');
 
 
-        return redirect('tiposjustificacion');
+       // return redirect('tiposjustificacion');
 
 
     }

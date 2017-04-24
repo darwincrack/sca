@@ -89,6 +89,23 @@ class PersonalController extends Controller
 
 
 
+            ->addColumn('delete', function ($personal)  {
+
+                if(Entrust::hasRole(['admin', 'operador']))
+                {
+                    return '<a class="btn btn-xs btn-danger delete" data-eliminar="'.$personal->Userid.'" title="Recuerde que al eliminar, borra permanentemente todos los datos asociados a este usuario"></i> Eliminar</a>';
+
+
+
+
+                }
+                else{
+                    return '<i class="fa fa-lock" aria-hidden="true"></i>';
+                }
+
+
+            })
+
 
 
 
@@ -144,13 +161,33 @@ class PersonalController extends Controller
 
         $data_departamentos          =  ListaModels::departamentos();
         $data_grupo_personals        =  ListaModels::grupoPersonal();
-        $data_sub_grupo_personals    =  ListaModels::subGrupoPersonal($data_personal->idSubGrupo);
+        $data_sub_grupo_personals    =  ListaModels::subGrupoPersonal($data_personal->idGrupo);
         $data_generos                =  ListaModels::genero();
         
         return view('personal.editar', ['id_persona' =>$id_personal,'data_departamentos' => $data_departamentos, 'data_grupo_personals' => $data_grupo_personals, 'data_sub_grupo_personals' => $data_sub_grupo_personals, 'data_personal' => $data_personal , 'data_generos' => $data_generos ]);
 
 
     }
+
+
+
+
+    public function eliminar($id_personal,Request $request)
+    {
+
+        PersonalModels::delete($id_personal);
+        LogsistemaModels::insertar('PERSONAL','DELETE',$id_personal);
+
+
+        $request->session()->flash('alert-success', 'Personal eliminado con exito!!');
+
+
+        return redirect('personal');
+
+
+    }
+
+
 
 
     public function store(Request $request)

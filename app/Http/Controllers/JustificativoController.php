@@ -49,7 +49,10 @@ class JustificativoController extends Controller
 
                 if(Entrust::hasRole(['admin', 'operador']))
                 {
-                    return '<a href="../justificativos/delete/'.$justificativos->Lsh.'" class="btn btn-xs btn-danger delete"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
+                    return '<a class="btn btn-xs btn-danger delete" data-eliminar="'.$justificativos->Lsh.'"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
+
+
+                    
                 }
                 else{
                     return '<i class="fa fa-lock" aria-hidden="true"></i>';
@@ -139,8 +142,18 @@ class JustificativoController extends Controller
 
 
        $id= JustificativoModels::insertar($Userid,$fecha,$hora,$tipo_falta,$tipojustificativo,$motivo);
-        LogsistemaModels::insertar('JUSTIFICATIVO','INSERT',$id);
+
+       if($id==0)
+       {
+        LogsistemaModels::insertar('JUSTIFICATIVO','INSERT-ERROR','');
+        $request->session()->flash('alert-danger', 'No se pudo crear justificativo, ya que el usuario no tiene horario cargado para ese d&iacute;a');
+       }
+       else
+       {
+                LogsistemaModels::insertar('JUSTIFICATIVO','INSERT',$id);
         $request->session()->flash('alert-success', 'Justificativo agregado con exito!!');
+       }
+
 
         return redirect('reportes');
     }
@@ -206,7 +219,8 @@ $data = [
         'tarde'                 =>  $tarde,
         'hora_entrada'          =>  $hora_entrada,
         'hora_salida'           =>  $hora_salida,
-        'nombre_sistema'        =>  $data_configuracion->nombre_sistema
+        'nombre_sistema'        =>  $data_configuracion->nombre_sistema,
+        'url_logo'              =>  $data_configuracion->path_logo
     ];
         
 

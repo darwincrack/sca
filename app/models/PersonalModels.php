@@ -51,7 +51,7 @@ class PersonalModels
         $lastInsertID= DB::table('Userinfo')->insertGetId(
             ['Userid' => $userid, 'UserCode' => $usuario_nro, 'Name' => $nombre, 'Deptid' => $departamento, 'idGrupo' => $grupo, 'idSubGrupo' => $subgrupo,'idGenero'=>$idgenero,'cedula'=>$cedula]
         );
-        return  $lastInsertID;
+        return  $userid;
 
     }
 
@@ -64,6 +64,54 @@ class PersonalModels
         DB::table('Userinfo')
             ->where('Userid', $id_personal)
             ->update( ['UserCode' => $usuario_nro, 'Name' => $nombre, 'Deptid' => $departamento, 'idGrupo' => $grupo, 'idSubGrupo' => $subgrupo,'idGenero'=>$idgenero,'cedula'=>$cedula]);
+
+    }
+
+
+
+    static public function delete($id_personal)
+    {
+
+
+        $data = DB::table('UserShift')
+            ->where('Userid', $id_personal)
+            ->select('Schid')
+            ->first();
+
+
+        if(count($data)>0){
+
+            
+           $schedule_id=$data->Schid;
+            DB::table('Schedule')
+                ->where('Schid', $schedule_id)
+                ->delete();
+
+            DB::update("delete from TimeTable where  Timeid in ((select Timeid from SchTime where Schid='$schedule_id'))");
+
+
+            DB::table('SchTime')
+                ->where('Schid', $schedule_id)
+                ->delete();
+
+            DB::table('Lactancia')
+                ->where('Schid', $schedule_id)
+                ->delete();
+
+        }
+        
+
+
+            DB::table('UserShift')
+                ->where('Userid', $id_personal)
+                ->delete();
+
+
+
+
+                 DB::table('Userinfo')
+                ->where('Userid', $id_personal)
+                ->delete();
 
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.template')
 
 @push('boton_accion')
-<a href="{{ url('/grupo/add') }}" class="btn btn-primary">
+<a href="{{ url('/subgrupo/add') }}" class="btn btn-primary">
     <span class="glyphicon glyphicon-plus"></span>
     Nuevo Sub Grupo
 </a>
@@ -33,6 +33,7 @@
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Grupo </th>
                 <th>Nombre </th>
                 <th>Descripción</th>
                 <th>Activo</th>
@@ -60,10 +61,11 @@
             "order": [[ 0, "desc" ]],
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             columns: [
-                {data: 'id', name: 'id'},
-                {data: 'nombre', name: 'nombre'},
-                {data: 'descripcion', name: 'descripcion'},
-                {data: 'activo', name: 'activo'},
+                {data: 'id', name: 'sub_grupo_personal.id'},
+                {data: 'grupo_nombre', name: 'grupo_personal.nombre'},
+                {data: 'nombre', name: 'sub_grupo_personal.nombre'},
+                {data: 'descripcion', name: 'sub_grupo_personal.descripcion'},
+                {data: 'activo', name: 'sub_grupo_personal.activo'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             pageLength: 25,

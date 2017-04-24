@@ -26,7 +26,7 @@
              {{$data_configuracion->nombre_corto_sistema}} 
 
             @elseif ($data_configuracion->prioridad==2) 
-                <img alt="image"  src="{{ URL::asset('assets/img/'.$data_configuracion->path_logo) }}" height="56px">
+                <img alt="image"  src="{{ URL::asset('assets/img/'.$data_configuracion->path_logo) }}" width="50%" style="margin-bottom: 17px;">
             @endif
 
           </h1>
@@ -36,21 +36,21 @@
                {{$data_configuracion->nombre_sistema}} 
         </h3>
 
-        @if ($errors->has('email'))
+        @if ($errors->has('username'))
         <div class="alert alert-danger alert-dismissable">
             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
 
                 <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('username') }}</strong>
                                     </span>
 
         </div>
         @endif
         <form class="m-t" role="form" method="POST" action="{{ url('/login') }}">
             {{ csrf_field() }}
-            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+            <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
 
-                <input id="email" type="email" placeholder="Email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                <input id="email" type="text" placeholder="username" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
 
 
             </div>
@@ -81,7 +81,6 @@
 
             <p class="text-muted text-center"><small>No tienes una cuenta?</small></p>
 
-            <a class="btn btn-sm btn-white btn-block" href="{{ url('/register') }}">Crear una cuenta</a>
 
         </form>
 

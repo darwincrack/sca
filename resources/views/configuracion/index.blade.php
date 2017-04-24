@@ -9,8 +9,11 @@
 
 @push('css')
 
-
-
+<style>
+input:not(#email):not(#password) {
+    text-transform: none;
+}
+</style>
 @endpush
 
 @section('title', 'Configuraci&oacute;n del Sistema')
@@ -139,6 +142,19 @@
                         </select>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <input type="hidden" name="logo_old" value="{{$data_configuracion->path_logo}}">
